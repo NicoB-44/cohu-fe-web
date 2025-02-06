@@ -1,97 +1,96 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Vérifie si Firebase est chargé
-    if (typeof firebase === "undefined") {
-        console.error("❌ Firebase n'a pas été chargé correctement.");
-        return;
+// Initialisation Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyASQVCg8yyA_oRBn_PnGQUYTg4WwHjqByI",
+    authDomain: "pc-scraper-poc.firebaseapp.com",
+    projectId: "pc-scraper-poc",
+    storageBucket: "pc-scraper-poc.firebasestorage.app",
+    messagingSenderId: "474435730603",
+    appId: "1:474435730603:web:ddd69a9b3cbc88de24cbee"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const BACKEND_URL = "https://cohu-fe-backend.onrender.com";
+
+// Création d'un message temporaire
+function showTemporaryMessage(message) {
+    let msgBox = document.createElement("div");
+    msgBox.innerText = message;
+    msgBox.className = "temp-message";
+    document.body.appendChild(msgBox);
+    setTimeout(() => msgBox.remove(), 2000);
+}
+
+// Mise à jour de l'état de connexion
+function updateAuthStatus(user) {
+    if (user) {
+        document.querySelector(".auth-container").classList.add("hidden");
+        document.querySelector(".notif-container").classList.remove("hidden");
+        loadUserPreferences(user);
+    } else {
+        document.querySelector(".auth-container").classList.remove("hidden");
+        document.querySelector(".notif-container").classList.add("hidden");
     }
+}
 
-    // 📌 Configuration Firebase
-    const firebaseConfig = {
-        apiKey: "AIzaSyASQVCg8yyA_oRBn_PnGQUYTg4WwHjqByI",
-        authDomain: "pc-scraper-poc.firebaseapp.com",
-        projectId: "pc-scraper-poc",
-        storageBucket: "pc-scraper-poc.firebasestorage.app",
-        messagingSenderId: "474435730603",
-        appId: "1:474435730603:web:ddd69a9b3cbc88de24cbee"
-    };
+// Récupérer les préférences utilisateur
+function loadUserPreferences(user) {
+    user.getIdToken().then(token => {
+        fetch(`${BACKEND_URL}/user/preferences`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(preferences => {
+            document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
+                const productCode = checkbox.dataset.code;
+                checkbox.checked = preferences.products?.[productCode]?.includes("push") || false;
+            });
+        })
+        .catch(error => console.error("❌ Erreur lors du chargement des préférences :", error));
+    });
+}
 
-    // Initialise Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    console.log("✅ Firebase chargé avec succès.");
-
-    // 📌 URL de ton backend sur Render
-    const BACKEND_URL = "https://cohu-fe-backend.onrender.com";
-
-    // 📌 Mise à jour de l'affichage de l'état d'authentification
-    function updateAuthStatus(user) {
-        const authStatus = document.getElementById("authStatus");
-        const logoutButton = document.getElementById("logoutButton");
-
-        if (user) {
-            authStatus.innerText = `Meow ${user.email}! still no fur ? 🐱‍👤`;
-            logoutButton.classList.remove("hidden");
-        } else {
-            authStatus.innerText = "New smell... let's meet ? 🐱‍👤";
-            logoutButton.classList.add("hidden");
+// Mettre à jour les préférences utilisateur
+function updateUserPreferences(user) {
+    const updatedPreferences = { products: {} };
+    document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
+        const productCode = checkbox.dataset.code;
+        if (checkbox.checked) {
+            updatedPreferences.products[productCode] = ["push"];
         }
-    }
-
-    // 📌 Inscription d'un nouvel utilisateur
-    document.getElementById("signupButton").addEventListener("click", () => {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        auth.createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                return user.getIdToken();  // Récupère le token Firebase
-            })
-            .then((idToken) => {
-                return fetch(`${BACKEND_URL}/auth/register`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${idToken}`
-                    },
-                    body: JSON.stringify({})
-                });
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("nice of you to join this cat-gang ! meow 🐱‍👤", data);
-            })
-            .catch((error) => {
-                console.error("mrrraw ! something's wrong with you !", error.message);
-            });
     });
-
-    // 📌 Connexion d'un utilisateur
-    document.getElementById("loginButton").addEventListener("click", () => {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        auth.signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                console.log("✅ Connexion réussie :", userCredential.user.email);
-            })
-            .catch((error) => {
-                console.error("❌ Erreur de connexion :", error.message);
-            });
+    
+    user.getIdToken().then(token => {
+        fetch(`${BACKEND_URL}/user/preferences`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(updatedPreferences)
+        })
+        .then(response => response.json())
+        .then(() => {
+            console.log("✅ Préférences mises à jour !");
+            showTemporaryMessage("✅ Préférences sauvegardées !");
+        })
+        .catch(error => console.error("❌ Erreur lors de la mise à jour des préférences :", error));
     });
+}
 
-    // 📌 Déconnexion d'un utilisateur
-    document.getElementById("logoutButton").addEventListener("click", () => {
-        auth.signOut()
-            .then(() => {
-                console.log("✅ Déconnexion réussie");
-            })
-            .catch((error) => {
-                console.error("❌ Erreur lors de la déconnexion :", error.message);
-            });
-    });
+// Gestion de l'authentification
+auth.onAuthStateChanged(user => {
+    updateAuthStatus(user);
+});
 
-    auth.onAuthStateChanged((user) => {
-        updateAuthStatus(user);
+// Écouter les modifications des toggles
+document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
+    checkbox.addEventListener("change", () => {
+        if (auth.currentUser) {
+            updateUserPreferences(auth.currentUser);
+        }
     });
 });
