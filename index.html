@@ -5,16 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cohu - Connexion</title>
     <link rel="stylesheet" href="styles.css">
-
- <!-- 📌 scripts Firebase -->
- <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js"></script>
- <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-auth-compat.js"></script>
-
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-messaging-compat.js"></script>
+    <style>
+        .logo {
+            width: 200px; /* Ajustable selon la mise en page */
+            height: 200px; /* Ratio 1:2 */
+            object-fit: contain;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Cohu - Notifications</h1>
-        <p>Connecte-toi pour gérer tes abonnements aux notifications</p>
+        <img src="img/logo.png" alt="Cohu Logo" class="logo">
+        
+        <h1>Cohu</h1>
+        <p>Connecte-toi pour faire partie du gang Cohu</p>
 
         <div class="auth-container">
             <input type="email" id="email" placeholder="Email">
@@ -26,19 +35,27 @@
 
             <p id="authStatus">🔄 Vérification de l'état de connexion...</p>
         </div>
-        <div class="notif-container hidden">
+
+        <div class="notif-container">
             <h2>Notifications</h2>
             <div class="product-notifs">
-                <label><input type="checkbox" id="notif-5070"> NVIDIA Geforce RTX 5070</label>
-                <label><input type="checkbox" id="notif-5070ti"> NVIDIA Geforce RTX 5070 Ti</label>
-                <label><input type="checkbox" id="notif-5080"> NVIDIA Geforce RTX 5080</label>
-                <label><input type="checkbox" id="notif-5090"> NVIDIA Geforce RTX 5090</label>
+                <label for="notif-5070">NVIDIA Geforce RTX 5070</label>
+                <input type="checkbox" id="notif-5070" data-code="NVGFT570">
+                
+                <label for="notif-5070ti">NVIDIA Geforce RTX 5070 Ti</label>
+                <input type="checkbox" id="notif-5070ti" data-code="NVGFT570T">
+                
+                <label for="notif-5080">NVIDIA Geforce RTX 5080</label>
+                <input type="checkbox" id="notif-5080" data-code="NVGFT580">
+                
+                <label for="notif-5090">NVIDIA Geforce RTX 5090</label>
+                <input type="checkbox" id="notif-5090" data-code="NVGFT590">
             </div>
             <button id="testNotifButton">📩 Tester une notification</button>
             <p id="notifStatus">🔄 Vérification de l'état des notifications...</p>
-        </div>        
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
