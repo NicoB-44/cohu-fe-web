@@ -16,14 +16,25 @@
             height: 200px; /* Ratio 1:2 */
             object-fit: contain;
         }
+        .product-notifs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="img/logo.png" alt="Cohu Logo" class="logo">
         
-        <h1>Cohu</h1>
-        <p>Connecte-toi pour faire partie du gang Cohu</p>
+        <h1>Cohu - Notifications</h1>
+        <p>Connecte-toi pour faire partie du gang des chats</p>
 
         <div class="auth-container">
             <input type="email" id="email" placeholder="Email">
@@ -39,17 +50,22 @@
         <div class="notif-container">
             <h2>Notifications</h2>
             <div class="product-notifs">
-                <label for="notif-5070">NVIDIA Geforce RTX 5070</label>
-                <input type="checkbox" id="notif-5070" data-code="NVGFT570">
-                
-                <label for="notif-5070ti">NVIDIA Geforce RTX 5070 Ti</label>
-                <input type="checkbox" id="notif-5070ti" data-code="NVGFT570T">
-                
-                <label for="notif-5080">NVIDIA Geforce RTX 5080</label>
-                <input type="checkbox" id="notif-5080" data-code="NVGFT580">
-                
-                <label for="notif-5090">NVIDIA Geforce RTX 5090</label>
-                <input type="checkbox" id="notif-5090" data-code="NVGFT590">
+                <div class="product-item">
+                    <label for="notif-5070">NVIDIA Geforce RTX 5070</label>
+                    <input type="checkbox" id="notif-5070" data-code="NVGFT570">
+                </div>
+                <div class="product-item">
+                    <label for="notif-5070ti">NVIDIA Geforce RTX 5070 Ti</label>
+                    <input type="checkbox" id="notif-5070ti" data-code="NVGFT570T">
+                </div>
+                <div class="product-item">
+                    <label for="notif-5080">NVIDIA Geforce RTX 5080</label>
+                    <input type="checkbox" id="notif-5080" data-code="NVGFT580">
+                </div>
+                <div class="product-item">
+                    <label for="notif-5090">NVIDIA Geforce RTX 5090</label>
+                    <input type="checkbox" id="notif-5090" data-code="NVGFT590">
+                </div>
             </div>
             <button id="testNotifButton">📩 Tester une notification</button>
             <p id="notifStatus">🔄 Vérification de l'état des notifications...</p>
