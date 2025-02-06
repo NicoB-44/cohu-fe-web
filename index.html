@@ -3,10 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cohu - Notifications</title>
+    <title>Cohu - Connexion</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Hello World 👋</h1>
-    <p>Bienvenue sur le site de notifications de Cohu !</p>
+    <div class="container">
+        <h1>Cohu - Notifications</h1>
+        <p>Connecte-toi pour gérer tes abonnements aux notifications</p>
+
+        <div class="auth-container">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Mot de passe">
+            
+            <button id="signupButton">S'inscrire</button>
+            <button id="loginButton">Se connecter</button>
+            <button id="logoutButton" class="hidden">Se déconnecter</button>
+
+            <p id="authStatus">🔄 Vérification de l'état de connexion...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

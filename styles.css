@@ -1,0 +1,72 @@
+/* Reset de base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Conteneur principal */
+.container {
+    max-width: 400px;
+    margin: 10% auto;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+/* Titre */
+h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+/* Champs de saisie */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Boutons */
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Boutons de couleur */
+#signupButton {
+    background-color: #28a745;
+    color: white;
+}
+
+#loginButton {
+    background-color: #007bff;
+    color: white;
+}
+
+#logoutButton {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Bouton caché par défaut */
+.hidden {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+    }
+}
