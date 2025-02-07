@@ -23,14 +23,31 @@ function showTemporaryMessage(message) {
 
 // Mise à jour de l'état de connexion
 function updateAuthStatus(user) {
+    const checkboxes = document.querySelectorAll(".product-notifs input[type='checkbox']");
+    const testNotifButton = document.getElementById("testNotifButton"); 
+
     if (user) {
-        document.querySelector(".auth-container").classList.add("hidden");
-        document.querySelector(".notif-container").classList.remove("hidden");
+        //document.querySelector(".notif-container").classList.remove("hidden");
+        document.querySelector(".logout-container").classList.remove("hidden");
+        document.querySelector(".signin-container").classList.add("hidden");
+        checkboxes.forEach(checkbox => checkbox.disabled = false);
+        testNotifButton.disabled = false;
         loadUserPreferences(user);
     } else {
-        document.querySelector(".auth-container").classList.remove("hidden");
-        document.querySelector(".notif-container").classList.add("hidden");
+        document.querySelector(".logout-container").classList.add("hidden");
+        document.querySelector(".signin-container").classList.remove("hidden");
+        checkboxes.forEach(checkbox => checkbox.disabled = true);
+        testNotifButton.disabled = true;
     }
+
+    //if (user) {
+    //      document.querySelector(".auth-container").classList.add("hidden");
+    //      document.querySelector(".notif-container").classList.remove("hidden");
+    //      loadUserPreferences(user);
+    //} else {
+    //      document.querySelector(".auth-container").classList.remove("hidden");
+    //      document.querySelector(".notif-container").classList.add("hidden");
+    //}
 }
 
 // Récupérer les préférences utilisateur

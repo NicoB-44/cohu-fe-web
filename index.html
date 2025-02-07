@@ -46,25 +46,29 @@
             80% { opacity: 1; }
             100% { opacity: 0; }
         }
-        
+
     </style>
 </head>
 <body>
     <div class="container">
         <img src="img/logo.png" alt="Cohu Logo" class="logo">
         
-        <h1>Cohu - Notifications</h1>
-        <p>Connecte-toi pour faire partie du gang des chats</p>
+        <h1>Cohu - Hunting Founders, Meow!</h1>
 
         <div class="auth-container">
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Mot de passe">
-            
-            <button id="signupButton">S'inscrire</button>
-            <button id="loginButton">Se connecter</button>
-            <button id="logoutButton" class="hidden">Se déconnecter</button>
+            <div class="signin-container">
+                <input type="email" id="email" placeholder="Email">
+                <input type="password" id="password" placeholder="Mot de passe">
+                
+                <button id="signupButton">S'inscrire</button>
+                <button id="loginButton">Se connecter</button>
+            </div>
+            <div class="logout-container hidden">
+                <p id="authStatus">🔄 Vérification de l'état de connexion...</p>
+                <button id="logoutButton" class="hidden">Se déconnecter</button>
+            </div>
 
-            <p id="authStatus">🔄 Vérification de l'état de connexion...</p>
+            
         </div>
 
         <div class="notif-container">
