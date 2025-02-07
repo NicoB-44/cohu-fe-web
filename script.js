@@ -28,14 +28,14 @@ function updateAuthStatus(user) {
 
     if (user) {
         //document.querySelector(".notif-container").classList.remove("hidden");
-        document.querySelector(".logout-container").classList.remove("hidden");
-        document.querySelector(".signin-container").classList.add("hidden");
+        //document.querySelector(".logout-container").classList.remove("hidden");
+        //document.querySelector(".signin-container").classList.add("hidden");
         checkboxes.forEach(checkbox => checkbox.disabled = false);
         testNotifButton.disabled = false;
         loadUserPreferences(user);
     } else {
-        document.querySelector(".logout-container").classList.add("hidden");
-        document.querySelector(".signin-container").classList.remove("hidden");
+        //document.querySelector(".logout-container").classList.add("hidden");
+        //document.querySelector(".signin-container").classList.remove("hidden");
         checkboxes.forEach(checkbox => checkbox.disabled = true);
         testNotifButton.disabled = true;
     }
