@@ -116,3 +116,40 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+// Fonctions d'authentification
+function signup() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            console.log("✅ Inscription réussie :", userCredential.user);
+        })
+        .catch(error => {
+            console.error("❌ Erreur lors de l'inscription :", error);
+        });
+}
+
+function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            console.log("✅ Connexion réussie :", userCredential.user);
+        })
+        .catch(error => {
+            console.error("❌ Erreur lors de la connexion :", error);
+        });
+}
+
+function logout() {
+    auth.signOut()
+        .then(() => {
+            console.log("✅ Déconnexion réussie !");
+        })
+        .catch(error => {
+            console.error("❌ Erreur lors de la déconnexion :", error);
+        });
+}
