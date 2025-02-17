@@ -70,6 +70,8 @@ function updateUserPreferences(user) {
         const productCode = checkbox.dataset.code;
         if (checkbox.checked) {
             updatedPreferences.products[productCode] = ["push"];
+        } else {
+            updatedPreferences.products[productCode] = []; // Envoie un tableau vide pour supprimer la notif
         }
     });
     
@@ -94,34 +96,6 @@ function updateUserPreferences(user) {
 // Gestion de l'authentification
 auth.onAuthStateChanged(user => {
     updateAuthStatus(user);
-});
-
-// Écouter les modifications des toggles
-document.addEventListener("DOMContentLoaded", () => {
-    // Boutons d'authentification
-    const signupButton = document.getElementById("signupButton");
-    const loginButton = document.getElementById("loginButton");
-    const logoutButton = document.getElementById("logoutButton");
-
-    if (signupButton) {
-        signupButton.addEventListener("click", signup);
-    }
-    if (loginButton) {
-        loginButton.addEventListener("click", login);
-    }
-    if (logoutButton) {
-        logoutButton.addEventListener("click", logout);
-    }
-    console.log("✅ Écouteurs d'événements attachés aux boutons !");
-
-    // Rétablissement de l'écoute sur les checkboxes
-    document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
-        checkbox.addEventListener("change", () => {
-            if (auth.currentUser) {
-                updateUserPreferences(auth.currentUser);
-            }
-        });
-    });
 });
 
 // Fonctions d'authentification
@@ -160,3 +134,31 @@ function logout() {
             console.error("❌ Erreur lors de la déconnexion :", error);
         });
 }
+
+// Écouter les modifications des toggles
+document.addEventListener("DOMContentLoaded", () => {
+    // Boutons d'authentification
+    const signupButton = document.getElementById("signupButton");
+    const loginButton = document.getElementById("loginButton");
+    const logoutButton = document.getElementById("logoutButton");
+
+    if (signupButton) {
+        signupButton.addEventListener("click", signup);
+    }
+    if (loginButton) {
+        loginButton.addEventListener("click", login);
+    }
+    if (logoutButton) {
+        logoutButton.addEventListener("click", logout);
+    }
+    console.log("✅ Écouteurs d'événements attachés aux boutons !");
+
+    // Rétablissement de l'écoute sur les checkboxes
+    document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
+        checkbox.addEventListener("change", () => {
+            if (auth.currentUser) {
+                updateUserPreferences(auth.currentUser);
+            }
+        });
+    });
+});
