@@ -64,14 +64,31 @@ function loadUserPreferences(user) {
                 "Authorization": `Bearer ${token}`
             }
         })
-        .then(response => response.json())
+        .then(response => response.json()) 
         .then(preferences => {
+            console.log("📥 Préférences utilisateur :", preferences);
+
+            // ✅ Mise à jour des checkboxes des produits
             document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
                 const productCode = checkbox.dataset.code;
                 checkbox.checked = preferences.products?.[productCode]?.includes("push") || false;
             });
+
+            // ✅ Ajout de la gestion de notifications_enabled
+            const globalNotifsCheckbox = document.getElementById("global-notifs");
+            const notifStatus = document.getElementById("notifStatus");
+
+            if (globalNotifsCheckbox) {
+                globalNotifsCheckbox.checked = preferences.notifications_enabled || false;
+            }
+
+            if (notifStatus) {
+                notifStatus.textContent = preferences.notifications_enabled 
+                    ? "✅ Notifications activées"
+                    : "❌ Notifications désactivées";
+            }
         })
-        .catch(error => console.error("❌ Erreur lors du chargement des préférences :", error));
+        .catch(error => console.error("❌ Erreur lors du chargement des préférences :", error)); // ✅ Catch bien positionné
     });
 }
 
