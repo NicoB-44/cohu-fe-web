@@ -31,15 +31,19 @@ function updateAuthStatus(user) {
         checkboxes.forEach(checkbox => checkbox.disabled = false);
         testNotifButton.disabled = false;
         loadUserPreferences(user);
+        document.querySelector(".signin-container").style.display = "none";
+        document.querySelector(".slogout-container").style.display = "block";
         
         // ✅ Met à jour le statut de connexion
-        authStatus.innerText = `✅ Connecté en tant que ${user.email}`;
+        authStatus.innerText = `👋 Hello ${user.email} !`;
     } else {
         checkboxes.forEach(checkbox => checkbox.disabled = true);
         testNotifButton.disabled = true;
         
         // ✅ Met à jour le statut pour afficher "Déconnecté"
-        authStatus.innerText = "🔄 Déconnecté";
+        authStatus.innerText = "Joining the gang ?";
+        document.querySelector(".signin-container").style.display = "block";
+        document.querySelector(".slogout-container").style.display = "none";
     }
 }
 
