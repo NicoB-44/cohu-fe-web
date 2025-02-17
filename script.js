@@ -32,7 +32,7 @@ function updateAuthStatus(user) {
         checkboxes.forEach(checkbox => checkbox.disabled = false);
         testNotifButton.disabled = false;
         document.querySelector(".signin-container").style.display = "none";
-        document.querySelector(".slogout-container").style.display = "block";
+        document.querySelector(".logout-container").style.display = "block";
         loadUserPreferences(user);
 
     } else {
@@ -40,9 +40,20 @@ function updateAuthStatus(user) {
         checkboxes.forEach(checkbox => checkbox.disabled = true);
         testNotifButton.disabled = true;
         document.querySelector(".signin-container").style.display = "block";
-        document.querySelector(".slogout-container").style.display = "none";
+        document.querySelector(".logout-container").style.display = "none";
     }
 }
+
+// Appelle `updateAuthStatus(null)` au chargement initial
+document.addEventListener("DOMContentLoaded", () => {
+    updateAuthStatus(null);
+});
+
+// Gestion de l'authentification
+auth.onAuthStateChanged(user => {
+    updateAuthStatus(user);
+});
+
 
 // Récupérer les préférences utilisateur
 function loadUserPreferences(user) {
@@ -93,11 +104,6 @@ function updateUserPreferences(user) {
         .catch(error => console.error("❌ Erreur lors de la mise à jour des préférences :", error));
     });
 }
-
-// Gestion de l'authentification
-auth.onAuthStateChanged(user => {
-    updateAuthStatus(user);
-});
 
 // Fonctions d'authentification
 function signup() {
