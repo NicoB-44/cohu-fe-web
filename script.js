@@ -28,20 +28,17 @@ function updateAuthStatus(user) {
     const authStatus = document.getElementById("authStatus"); // Récupère l'élément du statut
 
     if (user) {
+        authStatus.innerText = `👋 Hello ${user.email} !`;
         checkboxes.forEach(checkbox => checkbox.disabled = false);
         testNotifButton.disabled = false;
-        loadUserPreferences(user);
         document.querySelector(".signin-container").style.display = "none";
         document.querySelector(".slogout-container").style.display = "block";
-        
-        // ✅ Met à jour le statut de connexion
-        authStatus.innerText = `👋 Hello ${user.email} !`;
+        loadUserPreferences(user);
+
     } else {
+        authStatus.innerText = "Joining the gang ?";
         checkboxes.forEach(checkbox => checkbox.disabled = true);
         testNotifButton.disabled = true;
-        
-        // ✅ Met à jour le statut pour afficher "Déconnecté"
-        authStatus.innerText = "Joining the gang ?";
         document.querySelector(".signin-container").style.display = "block";
         document.querySelector(".slogout-container").style.display = "none";
     }
