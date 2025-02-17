@@ -64,6 +64,25 @@ button {
     display: none;
 }
 
+/* Ajustement de l'affichage des checkboxes */
+.product-notifs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.product-item input[type="checkbox"] {
+    width: auto;
+    margin-left: 10px;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .container {
