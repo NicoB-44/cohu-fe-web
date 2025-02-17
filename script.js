@@ -39,7 +39,7 @@ function updateAuthStatus(user) {
         testNotifButton.disabled = true;
         
         // ✅ Met à jour le statut pour afficher "Déconnecté"
-        authStatus.innerText = "🔄 Vérification de l'état de connexion...";
+        authStatus.innerText = "🔄 Déconnecté";
     }
 }
 
