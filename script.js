@@ -106,6 +106,22 @@ function signup() {
     auth.createUserWithEmailAndPassword(email, password)
         .then(userCredential => {
             console.log("✅ Inscription réussie :", userCredential.user);
+
+            // Envoi des infos au backend pour Firestore
+            userCredential.user.getIdToken().then(token => {
+                fetch(`${BACKEND_URL}/user/register`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                })
+                .then(response => response.json())
+                .then(() => {
+                    console.log("✅ Données utilisateur initialisées dans Firestore !");
+                })
+                .catch(error => console.error("❌ Erreur lors de l'initialisation des données utilisateur :", error));
+            });
         })
         .catch(error => {
             console.error("❌ Erreur lors de l'inscription :", error);
