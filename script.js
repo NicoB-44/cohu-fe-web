@@ -24,15 +24,22 @@ function showTemporaryMessage(message) {
 // Mise à jour de l'état de connexion
 function updateAuthStatus(user) {
     const checkboxes = document.querySelectorAll(".product-notifs input[type='checkbox']");
-    const testNotifButton = document.getElementById("testNotifButton"); 
+    const testNotifButton = document.getElementById("testNotifButton");
+    const authStatus = document.getElementById("authStatus"); // Récupère l'élément du statut
 
     if (user) {
         checkboxes.forEach(checkbox => checkbox.disabled = false);
         testNotifButton.disabled = false;
         loadUserPreferences(user);
+        
+        // ✅ Met à jour le statut de connexion
+        authStatus.innerText = `✅ Connecté en tant que ${user.email}`;
     } else {
         checkboxes.forEach(checkbox => checkbox.disabled = true);
         testNotifButton.disabled = true;
+        
+        // ✅ Met à jour le statut pour afficher "Déconnecté"
+        authStatus.innerText = "🔄 Vérification de l'état de connexion...";
     }
 }
 
