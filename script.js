@@ -208,4 +208,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    // Ajout d'un écouteur d'événements pour la checkbox globale
+    const globalNotifsCheckbox = document.getElementById("global-notifs");
+    if (globalNotifsCheckbox) {
+        globalNotifsCheckbox.addEventListener("change", () => {
+            if (auth.currentUser) {
+                updateUserPreferences(auth.currentUser);
+            }
+        });
+    }
+
 });
