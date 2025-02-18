@@ -94,16 +94,22 @@ function loadUserPreferences(user) {
 
 // Mettre à jour les préférences utilisateur
 function updateUserPreferences(user) {
-    const updatedPreferences = { products: {} };
+    const updatedPreferences = { 
+        products: {}, 
+        notifications_enabled: document.getElementById("global-notifs").checked // 🔥 Ajout de notifications_enabled
+    };
+
+    // Parcourir les cases à cocher des produits
     document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
         const productCode = checkbox.dataset.code;
         if (checkbox.checked) {
             updatedPreferences.products[productCode] = ["push"];
         } else {
-            updatedPreferences.products[productCode] = []; // Envoie un tableau vide pour supprimer la notif
+            updatedPreferences.products[productCode] = []; // Envoyer un tableau vide pour supprimer la notif
         }
     });
-    
+
+    // Envoyer les préférences mises à jour au backend
     user.getIdToken().then(token => {
         fetch(`${BACKEND_URL}/user/preferences`, {
             method: "POST",
@@ -121,6 +127,7 @@ function updateUserPreferences(user) {
         .catch(error => console.error("❌ Erreur lors de la mise à jour des préférences :", error));
     });
 }
+
 
 // Fonctions d'authentification
 function signup() {
