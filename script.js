@@ -59,32 +59,43 @@ auth.onAuthStateChanged(user => {
     updateAuthStatus(user);
 });
 
-// Initialize FCM
+// 📌 Récupérer et enregistrer le token FCM au chargement
 async function initializeFCM() {
     try {
         const permission = await Notification.requestPermission();
         if (permission !== "granted") {
             console.warn("⚠️ Notifications refusées par l'utilisateur.");
-            return null;
+            return;
         }
 
-        const token = await messaging.getToken();
+        const token = await messaging.getToken({
+            serviceWorkerRegistration: await navigator.serviceWorker.register('/cohu-fe-web/firebase-messaging-sw.js')
+        });
+        
         if (!token) {
             console.warn("⚠️ Impossible de récupérer le token FCM.");
-            return null;
+            return;
         }
 
-        console.log("✅ FCM Token obtenu :", token);
-
-        // 🔹 Écoute des notifications en foreground
-        messaging.onMessage((payload) => handleForegroundNotifications(payload));
-
-        return token;
-    } catch (err) {
-        console.error("❌ Erreur lors de l'initialisation de FCM :", err);
-        return null;
+        console.log("✅ Token FCM récupéré :", token);
+        const user = auth.currentUser;
+        if (user) {
+            updateFCMToken(user, token);
+        }
+    } catch (error) {
+        console.error("❌ Erreur lors de l'initialisation de FCM :", error);
     }
 }
+
+// 📩 Gérer les notifications en foreground
+messaging.onMessage((payload) => {
+    console.log("📩 Notification reçue en foreground :", payload);
+    new Notification(payload.notification.title, {
+        body: payload.notification.body,
+        icon: "/img/logo.png"
+    });
+});
+
 
 
 // Update FCM token in backend
