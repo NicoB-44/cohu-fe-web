@@ -179,6 +179,10 @@ function loadUserPreferences(user) {
 
 // Mettre à jour les préférences utilisateur
 function updateUserPreferences(user) {
+
+    const globalNotifsCheckbox = document.getElementById("global-notifs"); // ✅ Définition correcte
+    const notifStatus = document.getElementById("notifStatus"); // ✅ Ajouté au bon endroit
+
     const updatedPreferences = { 
         products: {}, 
         notifications_enabled: document.getElementById("global-notifs").checked // 🔥 Ajout de notifications_enabled
@@ -187,6 +191,7 @@ function updateUserPreferences(user) {
     // Parcourir les cases à cocher des produits
     document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
         const productCode = checkbox.dataset.code;
+        
         if (checkbox.checked) {
             updatedPreferences.products[productCode] = ["push"];
         } else {
