@@ -279,6 +279,47 @@ function logout() {
 
 // Écouter les modifications des toggles
 document.addEventListener("DOMContentLoaded", () => {
+
+    // Gestion du bouton "Tester une notification"
+    const testNotifButton = document.getElementById("testNotifButton");
+    if (testNotifButton) {
+        testNotifButton.addEventListener("click", async () => {
+            console.log("📩 Bouton de test de notification cliqué.");
+            
+            const user = auth.currentUser;
+            if (!user) {
+                console.warn("⚠️ Aucun utilisateur connecté.");
+                alert("⚠️ Vous devez être connecté pour tester une notification.");
+                return;
+            }
+
+            try {
+                const token = await user.getIdToken();
+                const response = await fetch(`${BACKEND_URL}/user/test-notification`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    console.log("✅ Notification test envoyée :", data);
+                    alert("✅ Notification envoyée avec succès !");
+                } else {
+                    console.error("❌ Erreur lors de l'envoi :", data);
+                    alert(`❌ Erreur : ${data.detail}`);
+                }
+            } catch (error) {
+                console.error("❌ Erreur inattendue :", error);
+                alert("❌ Une erreur est survenue.");
+            }
+        });
+    } else {
+        console.error("❌ Bouton 'Tester une notification' introuvable dans le DOM !");
+    }
+
     // Boutons d'authentification
     const signupButton = document.getElementById("signupButton");
     const loginButton = document.getElementById("loginButton");
