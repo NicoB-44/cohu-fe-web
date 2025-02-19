@@ -71,7 +71,7 @@ async function initializeFCM() {
         const token = await messaging.getToken({
             serviceWorkerRegistration: await navigator.serviceWorker.register('/cohu-fe-web/firebase-messaging-sw.js')
         });
-        
+
         if (!token) {
             console.warn("⚠️ Impossible de récupérer le token FCM.");
             return;
@@ -119,15 +119,6 @@ async function updateFCMToken(user, token) {
         console.error("❌ Erreur lors de l'envoi du token FCM :", error);
     }
 }
-
-
-onTokenChanged(messaging, (newToken) => {
-    console.log("🔄 Token FCM mis à jour :", newToken);
-    const user = auth.currentUser;
-    if (user) {
-        updateFCMToken(user, newToken);
-    }
-});
 
 function displayNotification(title, body) {
     new Notification(title, {
