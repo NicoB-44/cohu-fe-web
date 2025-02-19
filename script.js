@@ -110,13 +110,13 @@ async function updateFCMToken(user, token) {
 }
 
 
-// Handle token refresh
-messaging.onTokenRefresh(() => {
+import { onTokenChanged } from "firebase/messaging";
+
+onTokenChanged(messaging, (newToken) => {
+    console.log("🔄 Token FCM mis à jour :", newToken);
     const user = auth.currentUser;
     if (user) {
-        initializeFCM().then(token => {
-            if (token) updateFCMToken(user, token);
-        });
+        updateFCMToken(user, newToken);
     }
 });
 
