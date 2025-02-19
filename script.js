@@ -10,6 +10,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+const messaging = firebase.messaging();
 const BACKEND_URL = "https://cohu-fe-backend.onrender.com";
 
 // Création d'un message temporaire
@@ -34,7 +35,11 @@ function updateAuthStatus(user) {
         document.querySelector(".signin-container").style.display = "none";
         document.querySelector(".logout-container").style.display = "block";
         loadUserPreferences(user);
-
+        
+        // Initialize FCM when user logs in
+        initializeFCM().then(token => {
+            if (token) updateFCMToken(user, token);
+        });
     } else {
         authStatus.innerText = "Joining the gang ?";
         checkboxes.forEach(checkbox => checkbox.disabled = true);
@@ -53,6 +58,86 @@ document.addEventListener("DOMContentLoaded", () => {
 auth.onAuthStateChanged(user => {
     updateAuthStatus(user);
 });
+
+// Initialize FCM
+async function initializeFCM() {
+    try {
+        const permission = await Notification.requestPermission();
+        if (permission !== "granted") {
+            console.warn("⚠️ Notifications refusées par l'utilisateur.");
+            return null;
+        }
+
+        const token = await messaging.getToken();
+        if (!token) {
+            console.warn("⚠️ Impossible de récupérer le token FCM.");
+            return null;
+        }
+
+        console.log("✅ FCM Token obtenu :", token);
+
+        // 🔹 Écoute des notifications en foreground
+        messaging.onMessage((payload) => handleForegroundNotifications(payload));
+
+        return token;
+    } catch (err) {
+        console.error("❌ Erreur lors de l'initialisation de FCM :", err);
+        return null;
+    }
+}
+
+
+// Update FCM token in backend
+async function updateFCMToken(user, token) {
+    if (!user || !token) return;
+
+    try {
+        const idToken = await user.getIdToken();
+        const response = await fetch(`${BACKEND_URL}/user/fcm-token`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${idToken}`
+            },
+            body: JSON.stringify({ fcm_token: token })
+        });
+
+        const data = await response.json();
+        console.log("✅ FCM token envoyé au backend :", data);
+    } catch (error) {
+        console.error("❌ Erreur lors de l'envoi du token FCM :", error);
+    }
+}
+
+
+// Handle token refresh
+messaging.onTokenRefresh(() => {
+    const user = auth.currentUser;
+    if (user) {
+        initializeFCM().then(token => {
+            if (token) updateFCMToken(user, token);
+        });
+    }
+});
+
+function displayNotification(title, body) {
+    new Notification(title, {
+        body: body,
+        icon: "/img/logo.png",
+        badge: "/img/badge.png"
+    });
+}
+
+
+function handleForegroundNotifications(payload) {
+    console.log("📩 Notification reçue en foreground :", payload);
+
+    if (Notification.permission === "granted") {
+        displayNotification(payload.notification.title, payload.notification.body);
+    } else {
+        console.warn("⚠️ Notifications bloquées par l'utilisateur.");
+    }
+}
 
 
 // Récupérer les préférences utilisateur
@@ -127,7 +212,6 @@ function updateUserPreferences(user) {
         .catch(error => console.error("❌ Erreur lors de la mise à jour des préférences :", error));
     });
 }
-
 
 // Fonctions d'authentification
 function signup() {
