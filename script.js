@@ -208,6 +208,12 @@ function updateUserPreferences(user) {
         .then(() => {
             console.log("✅ Préférences mises à jour !");
             showTemporaryMessage("✅ Préférences sauvegardées !");
+
+            // ✅ Mettre à jour le texte immédiatement après modification
+            notifStatus.textContent = globalNotifsCheckbox.checked 
+                ? "✅ Notifications activées"
+                : "❌ Notifications désactivées";
+            
         })
         .catch(error => console.error("❌ Erreur lors de la mise à jour des préférences :", error));
     });
