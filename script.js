@@ -88,6 +88,10 @@ async function initializeFCM() {
 
 // Gestion des notifications foreground
 function handleForegroundNotifications(payload) {
+    if (payload?.data?.type === "ping") {
+        console.log("🔕 Notification silencieuse (ping) ignorée.");
+        return;
+    }
     console.log("📩 Notification reçue en foreground :", payload);
 
     const title = payload.notification?.title || payload.data?.title || "Cohu Alert!";
