@@ -26,7 +26,7 @@ function showTemporaryMessage(message) {
 function updateAuthStatus(user) {
     const checkboxes = document.querySelectorAll(".product-notifs input[type='checkbox']");
     const testNotifButton = document.getElementById("testNotifButton");
-    const authStatus = document.getElementById("authStatus"); // Récupère l'élément du statut
+    const authStatus = document.getElementById("authStatus");
 
     if (user) {
         authStatus.innerText = `👋 Hello ${user.email} !`;
@@ -35,8 +35,7 @@ function updateAuthStatus(user) {
         document.querySelector(".signin-container").style.display = "none";
         document.querySelector(".logout-container").style.display = "block";
         loadUserPreferences(user);
-        
-        // Initialize FCM when user logs in
+
         initializeFCM().then(token => {
             if (token) updateFCMToken(user, token);
         });
@@ -49,17 +48,16 @@ function updateAuthStatus(user) {
     }
 }
 
-// Appelle `updateAuthStatus(null)` au chargement initial
+// Initial state
 document.addEventListener("DOMContentLoaded", () => {
     updateAuthStatus(null);
 });
 
-// Gestion de l'authentification
 auth.onAuthStateChanged(user => {
     updateAuthStatus(user);
 });
 
-// 📌 Récupérer et enregistrer le token FCM au chargement
+// Init FCM
 async function initializeFCM() {
     try {
         const permission = await Notification.requestPermission();
@@ -82,23 +80,33 @@ async function initializeFCM() {
         if (user) {
             updateFCMToken(user, token);
         }
+        return token;
     } catch (error) {
         console.error("❌ Erreur lors de l'initialisation de FCM :", error);
     }
 }
 
-// 📩 Gérer les notifications en foreground
-messaging.onMessage((payload) => {
+// Gestion des notifications foreground
+function handleForegroundNotifications(payload) {
     console.log("📩 Notification reçue en foreground :", payload);
-    new Notification(payload.notification.title, {
-        body: payload.notification.body,
-        icon: "/img/logo.png"
-    });
-});
 
+    const title = payload.notification?.title || payload.data?.title || "Cohu Alert!";
+    const body = payload.notification?.body || payload.data?.body || payload.data?.message || "Nouvelle alerte disponible";
 
+    if (Notification.permission === "granted") {
+        new Notification(title, {
+            body: body,
+            icon: "/img/logo.png",
+            badge: "/img/badge.png"
+        });
+    } else {
+        console.warn("⚠️ Notifications bloquées par l'utilisateur.");
+    }
+}
 
-// Update FCM token in backend
+messaging.onMessage(handleForegroundNotifications);
+
+// Envoi token FCM au backend
 async function updateFCMToken(user, token) {
     if (!user || !token) return;
 
@@ -120,27 +128,7 @@ async function updateFCMToken(user, token) {
     }
 }
 
-function displayNotification(title, body) {
-    new Notification(title, {
-        body: body,
-        icon: "/img/logo.png",
-        badge: "/img/badge.png"
-    });
-}
-
-
-function handleForegroundNotifications(payload) {
-    console.log("📩 Notification reçue en foreground :", payload);
-
-    if (Notification.permission === "granted") {
-        displayNotification(payload.notification.title, payload.notification.body);
-    } else {
-        console.warn("⚠️ Notifications bloquées par l'utilisateur.");
-    }
-}
-
-
-// Récupérer les préférences utilisateur
+// Chargement des préférences utilisateur
 function loadUserPreferences(user) {
     user.getIdToken().then(token => {
         fetch(`${BACKEND_URL}/user/preferences`, {
@@ -149,17 +137,15 @@ function loadUserPreferences(user) {
                 "Authorization": `Bearer ${token}`
             }
         })
-        .then(response => response.json()) 
+        .then(response => response.json())
         .then(preferences => {
             console.log("📥 Préférences utilisateur :", preferences);
 
-            // ✅ Mise à jour des checkboxes des produits
             document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
                 const productCode = checkbox.dataset.code;
                 checkbox.checked = preferences.products?.[productCode]?.includes("push") || false;
             });
 
-            // ✅ Ajout de la gestion de notifications_enabled
             const globalNotifsCheckbox = document.getElementById("global-notifs");
             const notifStatus = document.getElementById("notifStatus");
 
@@ -173,33 +159,25 @@ function loadUserPreferences(user) {
                     : "❌ Notifications désactivées";
             }
         })
-        .catch(error => console.error("❌ Erreur lors du chargement des préférences :", error)); // ✅ Catch bien positionné
+        .catch(error => console.error("❌ Erreur lors du chargement des préférences :", error));
     });
 }
 
-// Mettre à jour les préférences utilisateur
+// Mise à jour des préférences utilisateur
 function updateUserPreferences(user) {
+    const globalNotifsCheckbox = document.getElementById("global-notifs");
+    const notifStatus = document.getElementById("notifStatus");
 
-    const globalNotifsCheckbox = document.getElementById("global-notifs"); // ✅ Définition correcte
-    const notifStatus = document.getElementById("notifStatus"); // ✅ Ajouté au bon endroit
-
-    const updatedPreferences = { 
-        products: {}, 
-        notifications_enabled: document.getElementById("global-notifs").checked // 🔥 Ajout de notifications_enabled
+    const updatedPreferences = {
+        products: {},
+        notifications_enabled: globalNotifsCheckbox.checked
     };
 
-    // Parcourir les cases à cocher des produits
     document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
         const productCode = checkbox.dataset.code;
-        
-        if (checkbox.checked) {
-            updatedPreferences.products[productCode] = ["push"];
-        } else {
-            updatedPreferences.products[productCode] = []; // Envoyer un tableau vide pour supprimer la notif
-        }
+        updatedPreferences.products[productCode] = checkbox.checked ? ["push"] : [];
     });
 
-    // Envoyer les préférences mises à jour au backend
     user.getIdToken().then(token => {
         fetch(`${BACKEND_URL}/user/preferences`, {
             method: "POST",
@@ -214,17 +192,15 @@ function updateUserPreferences(user) {
             console.log("✅ Préférences mises à jour !");
             showTemporaryMessage("✅ Préférences sauvegardées !");
 
-            // ✅ Mettre à jour le texte immédiatement après modification
             notifStatus.textContent = globalNotifsCheckbox.checked 
                 ? "✅ Notifications activées"
                 : "❌ Notifications désactivées";
-            
         })
         .catch(error => console.error("❌ Erreur lors de la mise à jour des préférences :", error));
     });
 }
 
-// Fonctions d'authentification
+// Authentification
 function signup() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -232,15 +208,13 @@ function signup() {
     auth.createUserWithEmailAndPassword(email, password)
         .then(userCredential => {
             console.log("✅ Inscription réussie :", userCredential.user);
-
-            // Envoi des infos au backend pour Firestore
             userCredential.user.getIdToken().then(token => {
                 fetch(`${BACKEND_URL}/user/register`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`
-                    },
+                    }
                 })
                 .then(response => response.json())
                 .then(() => {
@@ -277,22 +251,18 @@ function logout() {
         });
 }
 
-// Écouter les modifications des toggles
-document.addEventListener("DOMContentLoaded", () => {
+// Initialisation des événements
 
-    // Gestion du bouton "Tester une notification"
+document.addEventListener("DOMContentLoaded", () => {
     const testNotifButton = document.getElementById("testNotifButton");
     if (testNotifButton) {
         testNotifButton.addEventListener("click", async () => {
             console.log("📩 Bouton de test de notification cliqué.");
-            
             const user = auth.currentUser;
             if (!user) {
-                console.warn("⚠️ Aucun utilisateur connecté.");
                 alert("⚠️ Vous devez être connecté pour tester une notification.");
                 return;
             }
-
             try {
                 const token = await user.getIdToken();
                 const response = await fetch(`${BACKEND_URL}/user/test-notification`, {
@@ -302,7 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         "Content-Type": "application/json"
                     }
                 });
-
                 const data = await response.json();
                 if (response.ok) {
                     console.log("✅ Notification test envoyée :", data);
@@ -316,43 +285,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("❌ Une erreur est survenue.");
             }
         });
-    } else {
-        console.error("❌ Bouton 'Tester une notification' introuvable dans le DOM !");
     }
 
-    // Boutons d'authentification
     const signupButton = document.getElementById("signupButton");
     const loginButton = document.getElementById("loginButton");
     const logoutButton = document.getElementById("logoutButton");
 
-    if (signupButton) {
-        signupButton.addEventListener("click", signup);
-    }
-    if (loginButton) {
-        loginButton.addEventListener("click", login);
-    }
-    if (logoutButton) {
-        logoutButton.addEventListener("click", logout);
-    }
+    if (signupButton) signupButton.addEventListener("click", signup);
+    if (loginButton) loginButton.addEventListener("click", login);
+    if (logoutButton) logoutButton.addEventListener("click", logout);
+
     console.log("✅ Écouteurs d'événements attachés aux boutons !");
 
-    // Rétablissement de l'écoute sur les checkboxes
     document.querySelectorAll(".product-notifs input[type='checkbox']").forEach(checkbox => {
         checkbox.addEventListener("change", () => {
-            if (auth.currentUser) {
-                updateUserPreferences(auth.currentUser);
-            }
+            if (auth.currentUser) updateUserPreferences(auth.currentUser);
         });
     });
 
-    // Ajout d'un écouteur d'événements pour la checkbox globale
     const globalNotifsCheckbox = document.getElementById("global-notifs");
     if (globalNotifsCheckbox) {
         globalNotifsCheckbox.addEventListener("change", () => {
-            if (auth.currentUser) {
-                updateUserPreferences(auth.currentUser);
-            }
+            if (auth.currentUser) updateUserPreferences(auth.currentUser);
         });
     }
-
 });
