@@ -92,13 +92,24 @@ function handleForegroundNotifications(payload) {
 
     const title = payload.notification?.title || payload.data?.title || "Cohu Alert!";
     const body = payload.notification?.body || payload.data?.body || payload.data?.message || "Nouvelle alerte disponible";
+    const icon = payload.notification?.image || payload.data?.image || "/cohu-fe-web/img/logo.png";
+    const badge = "/cohu-fe-web/img/badge.png";
+    const click_action = payload.data?.link || payload.data?.click_action;
 
     if (Notification.permission === "granted") {
-        new Notification(title, {
-            body: body,
-            icon: "/img/logo.png",
-            badge: "/img/badge.png"
+        const notification = new Notification(title, {
+            body,
+            icon,
+            badge,
+            data: { click_action }
         });
+
+        notification.onclick = event => {
+            event.preventDefault();
+            if (click_action) {
+                window.open(click_action, '_blank');
+            }
+        };
     } else {
         console.warn("⚠️ Notifications bloquées par l'utilisateur.");
     }
