@@ -88,7 +88,7 @@ async function initializeFCM() {
 
 // Gestion des notifications foreground
 function handleForegroundNotifications(payload) {
-    if (payload?.data?.type === "ping") {
+    if (payload?.data?.test === "ping") {
         console.log("🔕 Notification silencieuse (ping) ignorée.");
         return;
     }
