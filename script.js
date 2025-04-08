@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         title: "Test de notification",
                         body: "Tu as bien reçu la notif 😺",
                         image: "/cohu-fe-web/img/logo.png",
-                        link: "https://nicob-44.github.io/cohu-fe-web/landing_notification.html"
+                        link: "https://nicob-44.github.io/cohu-fe-web/testnotification.html"
                     })
                 });
                 const data = await response.json();
