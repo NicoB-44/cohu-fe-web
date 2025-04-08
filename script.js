@@ -285,7 +285,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     headers: {
                         "Authorization": `Bearer ${token}`,
                         "Content-Type": "application/json"
-                    }
+                    },
+                    body: JSON.stringify({
+                        title: "Test de notification",
+                        body: "Tu as bien reçu la notif 😺",
+                        image: "/cohu-fe-web/img/logo.png",
+                        link: "https://nicob-44.github.io/cohu-fe-web/landing_notification.html"
+                    })
                 });
                 const data = await response.json();
                 if (response.ok) {
