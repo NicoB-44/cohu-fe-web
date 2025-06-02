@@ -398,3 +398,12 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# testing
+/coverage
+
+# production
+/build
+
+npm-debug.log*
+.DS_Store

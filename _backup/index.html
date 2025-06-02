@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cohu - Connexion</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-messaging-compat.js"></script>
+    
+    <!-- Register Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/cohu-fe-web/firebase-messaging-sw.js')
+                .then(registration => {
+                    console.log('✅ Service Worker registered:', registration);
+                })
+                .catch(error => {
+                    console.error('❌ Service Worker registration failed:', error);
+                });
+        }
+    </script>
+    
+    <style>
+        .logo {
+            width: 200px; /* Ajustable selon la mise en page */
+            height: 200px; /* Ratio 1:2 */
+            object-fit: contain;
+        }
+        .product-notifs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        temp-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            animation: fadeOut 2s ease-in-out forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="img/logo.png" alt="Cohu Logo" class="logo">
+        
+        <h1>Cohu - Hunting Founders, Meow!</h1>
+        <p id="authStatus">🔄 Vérification de l'état de connexion...</p>
+
+        <div class="auth-container">
+            <div class="signin-container">
+                <input type="email" id="email" placeholder="Email">
+                <input type="password" id="password" placeholder="Mot de passe">
+            
+                <button id="signupButton">S'inscrire</button>
+                <button id="loginButton">Se connecter</button>
+            </div>
+            <div class="logout-container">
+                <button id="logoutButton">Se déconnecter</button>
+            </div>
+        </div>
+
+        <div class="notif-container">
+            <br>
+            <h2>Notifications</h2>
+            <div class="global-notifs">
+                <div>
+                    <label for="global-notifs">Notifications pour ce device</label>
+                    <input type="checkbox" id="global-notifs" data-code="notifications_enabled">
+                </div>
+                <p id="notifStatus">🔄 notifications globales</p>
+                <button id="testNotifButton">📩 Tester une notification</button>
+            </div>          
+            <br>    
+            <div class="product-notifs">
+                <div class="product-item">
+                    <label for="notif-5070">NVIDIA Geforce RTX 5070</label>
+                    <input type="checkbox" id="notif-5060" data-code="NVIDIA RTX 5060 fr-fr">
+                </div>
+                <div class="product-item">
+                    <label for="notif-5070">NVIDIA Geforce RTX 5070</label>
+                    <input type="checkbox" id="notif-5070" data-code="NVIDIA RTX 5070 fr-fr">
+                </div>
+                <div class="product-item">
+                    <label for="notif-5080">NVIDIA Geforce RTX 5080</label>
+                    <input type="checkbox" id="notif-5080" data-code="NVIDIA RTX 5080 fr-fr">
+                </div>
+                <div class="product-item">
+                    <label for="notif-5090">NVIDIA Geforce RTX 5090</label>
+                    <input type="checkbox" id="notif-5090" data-code="NVIDIA RTX 5090 fr-fr">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
