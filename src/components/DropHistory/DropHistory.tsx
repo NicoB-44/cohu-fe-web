@@ -8,10 +8,7 @@ import { useTranslation } from "react-i18next";
 const DropHistory = () => {
   const { t } = useTranslation();
   const { data, isLoading, error } = useDropHistoryQuery();
-  // const data = dropHistoryMock.map((item) => ({
-  //   ...item,
-  //   id: item.product
-  // }));
+  
   const columns: GridColDef[] = useMemo(
     () => [
       { field: "id", headerName: t("DROP_HISTORY.ID"), width: 90 },
