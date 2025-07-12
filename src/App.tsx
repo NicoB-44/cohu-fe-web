@@ -15,6 +15,10 @@ const queryClient = new QueryClient({
   },
 });
 
+const router = createBrowserRouter(routes, {
+  basename: "/cohu-fe-web",
+});
+
 function App() {
   return (
     <>
@@ -31,9 +35,8 @@ function App() {
                 height: "100vh",
               }}
             >
-              <Header />
               <Container>
-                <RouterProvider router={createBrowserRouter(routes)} />
+                <RouterProvider router={router} />
               </Container>
               <Footer />
             </Stack>

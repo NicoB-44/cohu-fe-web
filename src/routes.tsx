@@ -1,13 +1,21 @@
-import { RouteObject } from "react-router-dom";
+import { Navigate, RouteObject } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
-
-const BASE_PATH = "/cohu-fe-web/";
+import RegionProvider from "@PROVIDERS/RegionProvider";
+import { DEFAULT_REGION } from "@CONSTANTS/regions";
 
 export const routes: RouteObject[] = [
+{
+    path: "/",
+    element: <Navigate to={`/${DEFAULT_REGION}`} replace />,
+  },
   {
-    path: BASE_PATH,
-    element: <Home />,
+    path: "/:region",
+    element: (
+      <RegionProvider>
+        <Home />
+      </RegionProvider>
+    ),
     errorElement: <NotFound />,
   },
 ];
