@@ -10,6 +10,9 @@ const en = {
       DONATE: "Donate",
     },  
     DROP_HISTORY: {
+      LOADING: "Loading...",
+      ERROR: "An error occurred: {{ message }}",
+      NO_DATA: "No drop history available for this region.",
       TITLE: "Drop History",
       ID: "ID",
       NAME: "Name",

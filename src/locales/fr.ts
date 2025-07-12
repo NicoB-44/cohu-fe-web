@@ -11,6 +11,9 @@ const fr = {
       DONATE: "Faire un don",
     },
     DROP_HISTORY: {
+      LOADING: "Chargement...",
+      ERROR: "Une erreur s'est produite : {{ message }}",
+      NO_DATA: "Aucun historique de drops disponible pour cette région.",
       TITLE: "Historique des drops",
       ID: "ID",
       NAME: "Nom",

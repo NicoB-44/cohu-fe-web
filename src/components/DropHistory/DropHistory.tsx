@@ -24,14 +24,14 @@ const DropHistory = () => {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{t("DROP_HISTORY.LOADING")}</div>;
   }
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>{t("DROP_HISTORY.ERROR", { message: error.message })}</div>;
   }
 
   if (!data?.length) {
-    return <div>No data available</div>;
+    return <div>{t("DROP_HISTORY.NO_DATA")}</div>;
   }
 
   const paginationModel = { page: 0, pageSize: 5 };
