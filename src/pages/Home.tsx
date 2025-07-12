@@ -1,10 +1,10 @@
-import DropHistory from "@COMPONENTS/DropHistory";
-import Header from "@COMPONENTS/Header";
+import { DropHistory, Header, HeroBanner } from "@COMPONENTS";
 
 const Home = () => {
   return (
     <>
       <Header />
+      <HeroBanner />
       <DropHistory />
     </>
   );

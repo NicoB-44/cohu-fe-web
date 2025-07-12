@@ -25,6 +25,7 @@
     "paths": {
       "@CONSTANTS/*": ["./src/constants/*"],
       "@CONTEXTS/*": ["./src/contexts/*"],
+      "@COMPONENTS": ["./src/components/index.ts"],
       "@COMPONENTS/*": ["./src/components/*"],
       "@HOOKS/*": ["./src/hooks/*"],
       "@PROVIDERS/*": ["./src/providers/*"],

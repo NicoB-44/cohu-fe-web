@@ -3,6 +3,12 @@ const en = {
     HEADER: {
       TITLE: "CoHu",
     },
+    HERO: {
+      TITLE: "CoHu",
+      SUBTITLE: "Be notified when NVIDIA Founders Edition cards are available",
+      TEXT: "We don't collect data. We have 0 advertisement. No Trackers. No sign up required.\nPlease consider donating if you use and appreciate this service",
+      DONATE: "Donate",
+    },  
     DROP_HISTORY: {
       TITLE: "Drop History",
       ID: "ID",
