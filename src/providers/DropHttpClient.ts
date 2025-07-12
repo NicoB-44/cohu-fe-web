@@ -4,7 +4,7 @@ import { API_BASE_URL, API_PATH_DROPS } from "@CONSTANTS/api";
 import { DropApi } from "@TYPES/index";
 
 export interface DropClient {
-    getDropHistory: () => Promise<DropApi.DropHistory>;
+    getDropHistory: (region: string) => Promise<DropApi.DropHistory>;
 }
 
 const createDropClient = (): DropClient => {
@@ -13,8 +13,8 @@ const createDropClient = (): DropClient => {
         headers: {},
     });
 
-    const getDropHistory = async () => {
-        const response = await client.get(API_PATH_DROPS);
+    const getDropHistory = async (region: string) => {
+        const response = await client.get(`${API_PATH_DROPS}?countries=${region}`);
         return response.data;
     };
 

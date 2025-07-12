@@ -1,3 +1,4 @@
+import { useRegion } from "@CONTEXTS/RegionContext";
 import useDropHistoryQuery from "@HOOKS/useDropHistoryQuery";
 import { Paper } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -7,7 +8,8 @@ import { useTranslation } from "react-i18next";
 
 const DropHistory = () => {
   const { t } = useTranslation();
-  const { data, isLoading, error } = useDropHistoryQuery();
+  const region = useRegion();
+  const { data, isLoading, error } = useDropHistoryQuery(region);
   
   const columns: GridColDef[] = useMemo(
     () => [

@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { routes } from "./routes";
-import Header from "@COMPONENTS/Header";
 import Footer from "@COMPONENTS/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import DropProvider from "./providers/DropProvider";
