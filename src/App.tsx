@@ -22,7 +22,7 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <QueryClientProvider client={queryClient}>
           <DropProvider>
             <Stack

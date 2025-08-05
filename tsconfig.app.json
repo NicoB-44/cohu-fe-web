@@ -23,6 +23,7 @@
     "noUncheckedSideEffectImports": true,
 
     "paths": {
+      "@ASSETS/*": ["./src/assets/*"],
       "@CONSTANTS/*": ["./src/constants/*"],
       "@CONTEXTS/*": ["./src/contexts/*"],
       "@COMPONENTS": ["./src/components/index.ts"],

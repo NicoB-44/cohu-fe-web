@@ -1,48 +1,52 @@
-import { Typography, Button, Stack, Paper } from "@mui/material";
+import { Typography, Stack, Paper, Grid, Box } from "@mui/material";
 import { useTranslation } from "react-i18next";
-
+import imgSrc from "@ASSETS/heroPic.png";
+import BuyMeACoffeeButton from "@COMPONENTS/BuyMeACoffeeButton/BuyMeACoffeeButton";
 export default function HeroBanner() {
   const { t } = useTranslation();
-
   return (
     <Paper
       elevation={3}
       sx={{
-        p: { xs: 3, md: 6 },
-        mt: 4,
-        textAlign: "center",
         backgroundColor: "#f5f5f5",
-        borderRadius: 4,
       }}
     >
-      <Stack spacing={2} alignItems="center">
-        {/* Main Title */}
-        <Typography variant="h2" component="h1" fontWeight="bold">
-          {t("HERO.TITLE")}
-        </Typography>
+      <Grid container spacing={4} alignItems="center">
+        {/* Left column: Image */}
+        <Grid size={{ xs: 12, md: 5 }}>
+          <Box
+            component="img"
+            src={imgSrc}
+            alt="Hero"
+            sx={{
+              width: "100%",
+              height: "auto",
+              display: "block",
+              mx: "auto",
+            }}
+          />
+        </Grid>
 
-        {/* Subtitle */}
-        <Typography variant="h5" color="text.secondary">
-          {t("HERO.SUBTITLE")}
-        </Typography>
+        {/* Right column: Text content */}
+        <Grid size={{ xs: 12, md: 7 }}>
+          <Stack spacing={2} textAlign={{ xs: "center", md: "left" }} alignItems={{ xs: "center", md: "flex-start" }}>
+            <Typography variant="h5" fontWeight="bold">
+              {t("HERO.TITLE")}
+            </Typography>
 
-        {/* Info text */}
-        <Typography variant="body1" color="text.primary" maxWidth={600}>
-          {t("HERO.TEXT")}
-        </Typography>
+            <Typography variant="h5" color="text.secondary">
+              {t("HERO.SUBTITLE")}
+            </Typography>
 
-        {/* Donate button */}
-        <Button
-          variant="contained"
-          color="primary"
-          href="https://www.paypal.com/donate"
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={{ mt: 2 }}
-        >
-          {t("HERO.DONATE")}
-        </Button>
-      </Stack>
+            <Typography variant="body1" color="text.primary" maxWidth={600}>
+              {t("HERO.TEXT")}
+            </Typography>
+
+
+            <BuyMeACoffeeButton />
+          </Stack>
+        </Grid>
+      </Grid>
     </Paper>
   );
 }
