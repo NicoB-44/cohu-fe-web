@@ -27,6 +27,7 @@ export interface Product {
     available: boolean;
     last_update: string; // ISO 8601 string (e.g., "2025-08-06T19:09:34.520086")
   };
+  productURL: string;
 }
 
 export type ProductList = Product[];
