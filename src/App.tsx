@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import { routes } from "./routes";
 import Footer from "@COMPONENTS/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -14,9 +14,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const router = createBrowserRouter(routes, {
-  basename: "/cohu-fe-web",
-});
+const router = createHashRouter(routes);
 
 // MUI theme overrides
 const theme = createTheme({
