@@ -2,7 +2,7 @@ import { Button, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useRegion } from "@CONTEXTS/RegionContext";
-import imgSrc from "@ASSETS/logo.png";
+import imgSrc from "@ASSETS/CohuLogo.png";
 
 export default function HomeButton() {
   const navigate = useNavigate();

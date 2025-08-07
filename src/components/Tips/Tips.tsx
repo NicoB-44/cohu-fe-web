@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import { orange, yellow } from "@mui/material/colors";
-import logoSrc from "@ASSETS/Logo.png";
+import logoSrc from "@ASSETS/CohuLogo.png";
 import qrSrc from "@ASSETS/QRCode.png";
 import { useTranslation } from "react-i18next";
 
