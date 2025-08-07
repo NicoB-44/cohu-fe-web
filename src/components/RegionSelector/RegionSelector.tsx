@@ -19,11 +19,12 @@ export default function RegionSelector() {
   };
 
   return (
-    <FormControl>
+    <FormControl  size="small">
       <InputLabel id="region-select-label">{t("REGION.SELECT")}</InputLabel>
       <Select
         labelId="region-select-label"
         value={region}
+        displayEmpty
         onChange={handleChange}
         label={t(getRegionLabel(region))}
       >

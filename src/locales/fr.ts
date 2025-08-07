@@ -10,6 +10,13 @@ const fr = {
       TEXT: "Nous ne collectons aucune donnée. Aucune publicité. Aucun tracker. Aucune inscription requise.\nMerci de considérer un don si vous utilisez et appréciez ce service",
       DONATE: "Faire un don",
     },
+    PRODUCT_CARD: {
+      BUY: "Acheter",
+      AVAILABLE: "Disponible",
+      UNAVAILABLE: "Indisponible",
+      LAST_DROP: "Dernière chute",
+      ACTIVATE_NOTIFICATION: "Activer la notification",
+    },
     DROP_HISTORY: {
       LOADING: "Chargement...",
       ERROR: "Une erreur s'est produite : {{ message }}",

@@ -8,7 +8,14 @@ const en = {
       SUBTITLE: "Be notified when NVIDIA Founders Edition cards are available",
       TEXT: "We don't collect data. We have 0 advertisement. No Trackers. No sign up required.\nPlease consider donating if you use and appreciate this service",
       DONATE: "Donate",
-    },  
+    },
+    PRODUCT_CARD: {
+      BUY: "Buy",
+      AVAILABLE: "Available",
+      UNAVAILABLE: "Unavailable",
+      LAST_DROP: "Last drop",
+      ACTIVATE_NOTIFICATION: "Activate Notification",
+    },
     DROP_HISTORY: {
       LOADING: "Loading...",
       ERROR: "An error occurred: {{ message }}",

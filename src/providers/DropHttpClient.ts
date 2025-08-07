@@ -5,6 +5,7 @@ import { DropApi } from "@TYPES/index";
 
 export interface DropClient {
     getDropHistory: (region: string) => Promise<DropApi.DropHistory>;
+    getProductList: (region: string) => Promise<DropApi.ProductList>;
 }
 
 const createDropClient = (): DropClient => {
@@ -18,8 +19,14 @@ const createDropClient = (): DropClient => {
         return response.data;
     };
 
+    const getProductList = async (region: string) => {
+        const response = await client.get(`/products?countries=${region}`);
+        return response.data;
+    }
+
     return {
         getDropHistory,
+        getProductList,
     };
 };
 

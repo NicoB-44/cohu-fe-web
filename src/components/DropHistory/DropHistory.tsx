@@ -34,7 +34,7 @@ const DropHistory = () => {
     return <div>{t("DROP_HISTORY.NO_DATA")}</div>;
   }
 
-  const paginationModel = { page: 0, pageSize: 5 };
+  const paginationModel = { page: 0, pageSize: 10 };
 
   return (
     <>
@@ -44,7 +44,7 @@ const DropHistory = () => {
         rows={data}
         columns={columns}
         initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[10, 20]}
         sx={{ border: 0 }}
         showToolbar
       />

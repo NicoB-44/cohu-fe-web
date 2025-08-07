@@ -1,14 +1,14 @@
-import { Typography, Stack, Paper, Grid, Box } from "@mui/material";
+import { Typography, Stack, Grid, Box } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import imgSrc from "@ASSETS/heroPic.png";
 import BuyMeACoffeeButton from "@COMPONENTS/BuyMeACoffeeButton/BuyMeACoffeeButton";
+import { yellow } from "@mui/material/colors";
 export default function HeroBanner() {
   const { t } = useTranslation();
   return (
-    <Paper
-      elevation={3}
+    <Box
       sx={{
-        backgroundColor: "#f5f5f5",
+        backgroundColor: yellow[100],
       }}
     >
       <Grid container spacing={4} alignItems="center">
@@ -28,7 +28,7 @@ export default function HeroBanner() {
         </Grid>
 
         {/* Right column: Text content */}
-        <Grid size={{ xs: 12, md: 7 }}>
+        <Grid size={{ xs: 12, md: 7 }} sx={{ p: 2 }}>
           <Stack spacing={2} textAlign={{ xs: "center", md: "left" }} alignItems={{ xs: "center", md: "flex-start" }}>
             <Typography variant="h5" fontWeight="bold">
               {t("HERO.TITLE")}
@@ -47,6 +47,6 @@ export default function HeroBanner() {
           </Stack>
         </Grid>
       </Grid>
-    </Paper>
+    </Box>
   );
 }
