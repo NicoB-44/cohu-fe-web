@@ -1,6 +1,6 @@
 import { Typography, Stack, Grid, Box } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import imgSrc from "@ASSETS/HeroPic.png";
+import imgSrc from "@ASSETS/HeroImg.png";
 import BuyMeACoffeeButton from "@COMPONENTS/BuyMeACoffeeButton/BuyMeACoffeeButton";
 import { yellow } from "@mui/material/colors";
 export default function HeroBanner() {
