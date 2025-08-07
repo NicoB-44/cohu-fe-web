@@ -43,7 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       }}
     >
       <CardContent>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom>
           {title}
         </Typography>
 

@@ -1,4 +1,5 @@
 import { DropHistory, Header, HeroBanner, ProductList } from "@COMPONENTS";
+import Tips from "@COMPONENTS/Tips/Tips";
 import { Box } from "@mui/material";
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
     >
       <Header />
       <HeroBanner />
+      <Tips />
       <ProductList />
       <DropHistory />
     </Box>

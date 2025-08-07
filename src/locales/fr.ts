@@ -1,13 +1,19 @@
 const fr = {
   translation: {
     HEADER: {
+      HOME: "Accueil",
       TITLE: "CoHu",
     },
     HERO: {
       TITLE: "CoHu",
       SUBTITLE:
         "Soyez averti lorsque des cartes NVIDIA Founders Edition sont disponibles",
-      TEXT: "Nous ne collectons aucune donnée. Aucune publicité. Aucun tracker. Aucune inscription requise.\nMerci de considérer un don si vous utilisez et appréciez ce service",
+      TEXT:
+        "Pas de pub. Pas de trackers. Pas d'inscription. Même pas de cookies.\n" +
+        "Consultez la disponibilité des *Founders Edition* et l'historique des drops. Recevez des alertes. C'est tout.\n" +
+        "🔒 Respect absolu de votre vie privée.\n" +
+        "💸 Aucun sponsor. Aucune affiliation. Aucune pub. Aucune monétisation.\n" +
+        "☕ Ce projet est 100 % gratuit — un café suffit à le faire vivre.",
       DONATE: "Faire un don",
     },
     PRODUCT_CARD: {
@@ -16,6 +22,9 @@ const fr = {
       UNAVAILABLE: "Indisponible",
       LAST_DROP: "Dernière chute",
       ACTIVATE_NOTIFICATION: "Activer la notification",
+    },
+    TIPS: {
+      TEXT: "Des alertes de drop… directement dans votre poche ? Accédez à CoHu et activez les notifications sur votre mobile.",
     },
     DROP_HISTORY: {
       LOADING: "Chargement...",
@@ -43,6 +52,9 @@ const fr = {
       "fi-fi": "Finlande",
       "ko-kr": "Corée du Sud",
       "en-in": "Inde",
+    },
+    ERRORS: {
+      NOT_FOUND: "Page non trouvée",
     },
   },
 };

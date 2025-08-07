@@ -14,7 +14,7 @@ export default function HomeButton() {
   };
 
   return (
-    <Tooltip title={t("goHome")}>
+    <Tooltip title={t("HEADER.HOME")} arrow>
       <Button onClick={handleClick} color="primary" aria-label="home">
         <img src={imgSrc} alt="Logo" style={{ width: 48, height: 48 }} />
       </Button>

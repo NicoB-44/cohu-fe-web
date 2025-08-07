@@ -54,7 +54,7 @@ const ProductList = () => {
           price={product.productPrice}
           imageUrl={product.productImage}
           buyUrl={product.productURL}
-          available={product.cohuAvailability.available}
+          available={product.cohuAvailability?.available}
         />
       ))}
     </Box>

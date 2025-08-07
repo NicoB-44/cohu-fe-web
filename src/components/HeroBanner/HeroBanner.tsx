@@ -1,6 +1,6 @@
 import { Typography, Stack, Grid, Box } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import imgSrc from "@ASSETS/heroPic.png";
+import imgSrc from "@ASSETS/HeroPic.png";
 import BuyMeACoffeeButton from "@COMPONENTS/BuyMeACoffeeButton/BuyMeACoffeeButton";
 import { yellow } from "@mui/material/colors";
 export default function HeroBanner() {
@@ -34,11 +34,7 @@ export default function HeroBanner() {
               {t("HERO.TITLE")}
             </Typography>
 
-            <Typography variant="h5" color="text.secondary">
-              {t("HERO.SUBTITLE")}
-            </Typography>
-
-            <Typography variant="body1" color="text.primary" maxWidth={600}>
+            <Typography variant="body1" color="text.primary" maxWidth={600} sx={{ whiteSpace: "pre-line" }}>
               {t("HERO.TEXT")}
             </Typography>
 

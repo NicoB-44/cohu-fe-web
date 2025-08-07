@@ -1,13 +1,22 @@
 const en = {
   translation: {
     HEADER: {
+      HOME: "Home",
       TITLE: "CoHu",
     },
     HERO: {
       TITLE: "CoHu hunts GPUs, not your data.",
-      SUBTITLE: "Be notified when NVIDIA Founders Edition cards are available",
-      TEXT: "We don't collect data. We have 0 advertisement. No Trackers. No sign up required.\nPlease consider donating if you use and appreciate this service",
+      TEXT:
+        "No ads. No trackers. No login. Not even cookies.\n" +
+        "Check Founders Edition availability and drop history.\n" +
+        "Get alerts. That's it.\n" +
+        "🔒 Absolute respect for your privacy.\n" +
+        "💸 No sponsorship. No affiliation. No ads. No monetization.\n" +
+        "☕ This project is 100% free — a coffee is all it takes to keep it alive.",
       DONATE: "Donate",
+    },
+    TIPS: {
+      TEXT: "Drop alerts, right in your pocket? Browse CoHu and activate notification on mobile.",
     },
     PRODUCT_CARD: {
       BUY: "Buy",
@@ -42,6 +51,9 @@ const en = {
       "fi-fi": "Finland",
       "ko-kr": "South Korea",
       "en-in": "India",
+    },
+    ERRORS: {
+      NOT_FOUND: "Page not found",
     },
   },
 };
