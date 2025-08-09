@@ -31,6 +31,7 @@
       "@HOOKS/*": ["./src/hooks/*"],
       "@PROVIDERS/*": ["./src/providers/*"],
       "@TYPES/*": ["./src/types/*"],
+      "@UTILS/*": ["./src/utils/*"],
     }
   },
   "include": ["src"]

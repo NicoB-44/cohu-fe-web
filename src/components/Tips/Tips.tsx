@@ -17,6 +17,7 @@ const Tips: React.FC = () => {
         px: { xs: 2, sm: 3 },
         py: { xs: 1.5, sm: 2 },
         mx: { xs: 2 },
+        width: "80%"
       }}
     >
       <Stack

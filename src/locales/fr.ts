@@ -27,16 +27,14 @@ const fr = {
       TEXT: "Des alertes de drop… directement dans votre poche ? Accédez à CoHu et activez les notifications sur votre mobile.",
     },
     DROP_HISTORY: {
-      LOADING: "Chargement...",
-      ERROR: "Une erreur s'est produite : {{ message }}",
-      NO_DATA: "Aucun historique de drops disponible pour cette région.",
       TITLE: "Historique des drops",
-      ID: "ID",
-      NAME: "Nom",
-      COUNTRY: "Pays",
-      START_DATE: "Date de début",
-      END_DATE: "Date de fin",
-      DURATION: "Durée",
+      FILTER_BY_PRODUCT: "Filtrer par produit",
+      PRODUCTS: "Produits",
+      SELECT_ALL: "Tout sélectionner",
+      CLEAR: "Effacer",
+      SORT_BY_DATE: "Trier par date",
+      FAILED_TO_LOAD: "Échec du chargement des drops.",
+      LOAD_MORE: "Charger plus",
     },
     REGION: {
       SELECT: "Pays",
@@ -55,6 +53,9 @@ const fr = {
     },
     ERRORS: {
       NOT_FOUND: "Page non trouvée",
+    },
+    BUTTON: {
+      BUY_ME_A_COFFEE: "Offrez-moi un café",
     },
   },
 };

@@ -1,6 +1,8 @@
 import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 export default function BuyMeACoffeeButton() {
+  const { t } = useTranslation();
   return (
     <Button
       variant="contained"
@@ -21,7 +23,7 @@ export default function BuyMeACoffeeButton() {
       target="_blank"
       rel="noopener noreferrer"
     >
-      ☕ Buy me a coffee
+      ☕ {t("BUTTON.BUY_ME_A_COFFEE")}
     </Button>
   );
 }

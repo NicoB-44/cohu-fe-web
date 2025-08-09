@@ -10,10 +10,7 @@ const useDropHistoryQuery = (region : string) => {
         queryFn: async () => client.getDropHistory(region)
     });
     return {
-        data: data?.map((item) => ({
-            ...item,
-            id: item.dropId
-        })) || [],
+        data,
         isLoading,
         error,
     };

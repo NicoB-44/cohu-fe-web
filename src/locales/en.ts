@@ -26,16 +26,14 @@ const en = {
       ACTIVATE_NOTIFICATION: "Activate Notification",
     },
     DROP_HISTORY: {
-      LOADING: "Loading...",
-      ERROR: "An error occurred: {{ message }}",
-      NO_DATA: "No drop history available for this region.",
       TITLE: "Drop History",
-      ID: "ID",
-      NAME: "Name",
-      COUNTRY: "Country",
-      START_DATE: "Start Date",
-      END_DATE: "End Date",
-      DURATION: "Duration",
+      FILTER_BY_PRODUCT: "Filter by product",
+      PRODUCTS: "Products",
+      SELECT_ALL: "Select all",
+      CLEAR: "Clear",
+      SORT_BY_DATE: "Sort by date",
+      FAILED_TO_LOAD: "Failed to load drops.",
+      LOAD_MORE: "Load more",
     },
     REGION: {
       SELECT: "Country",
@@ -54,6 +52,9 @@ const en = {
     },
     ERRORS: {
       NOT_FOUND: "Page not found",
+    },
+    BUTTON: {
+      BUY_ME_A_COFFEE: "Buy me a coffee",
     },
   },
 };
