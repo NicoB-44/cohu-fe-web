@@ -5,9 +5,7 @@ const fr = {
       TITLE: "CoHu",
     },
     HERO: {
-      TITLE: "CoHu",
-      SUBTITLE:
-        "Soyez averti lorsque des cartes NVIDIA Founders Edition sont disponibles",
+      TITLE: "CoHu chasse les GPU, pas vos données.",
       TEXT:
         "Pas de pub. Pas de trackers. Pas d'inscription. Même pas de cookies.\n" +
         "Consultez la disponibilité des *Founders Edition* et l'historique des drops. Recevez des alertes. C'est tout.\n" +
