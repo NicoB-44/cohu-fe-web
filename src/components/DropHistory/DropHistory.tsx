@@ -241,7 +241,7 @@ export const DropHistory: React.FC<DropHistoryProps> = ({
                       spacing={{ xs: 1, sm: 2 }}
                       sx={{
                         minWidth: 0,
-                        textAlign: { xs: "center", sm: "left" },
+                        textAlign: { xs: "center", md: "left" },
                       }}
                     >
                         {/* Product image */}
