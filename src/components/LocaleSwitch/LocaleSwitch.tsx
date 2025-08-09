@@ -3,6 +3,8 @@ import Flag from "react-world-flags";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useCallback } from "react";
 
+const SUPPORTED_LOCALES = ["en", "fr"];
+
 const FLAG_CODE: {[key: string]: string} = {
   en: "GB",
   fr: "FR",
@@ -25,7 +27,7 @@ const LocaleSwitch = () => {
       exclusive
       onChange={handleLocaleChange}
     >
-      {["en", "fr"].map((lang) => (
+      {SUPPORTED_LOCALES.map((lang) => (
         <ToggleButton value={lang} key={lang}>
           <Flag code={FLAG_CODE[lang]} height="16" />
         </ToggleButton>
