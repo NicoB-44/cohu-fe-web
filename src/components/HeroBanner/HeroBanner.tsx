@@ -11,7 +11,7 @@ export default function HeroBanner() {
         backgroundColor: yellow[100],
       }}
     >
-      <Grid container spacing={4} alignItems="center">
+      <Grid container                  alignItems="center">
         {/* Left column: Image */}
         <Grid size={{ xs: 12, md: 5 }}>
           <Box

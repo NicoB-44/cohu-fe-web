@@ -11,12 +11,12 @@ const Tips: React.FC = () => {
     <Box
       sx={{
         borderRadius: 4,
-        border: "3px solid",
+        border: 2,
         borderColor: orange[500],
         bgcolor: yellow[200],
         px: { xs: 2, sm: 3 },
         py: { xs: 1.5, sm: 2 },
-        m: { xs: 2, sm: 5 },
+        mx: { xs: 2 },
       }}
     >
       <Stack

@@ -12,6 +12,9 @@ const Footer = () => {
         backgroundColor: "grey.100",
         display: "flex",
         alignItems: "center",
+        flexDirection: { xs: "column", sm: "row" },
+        textAlign: { xs: "center", sm: "left" },
+        gap: { xs: 1, sm: 0 },
       }}
     >
       {/* Left */}
@@ -22,7 +25,7 @@ const Footer = () => {
       </Box>
 
       {/* Center */}
-      <Box sx={{ flex: 1, textAlign: "center" }}>
+      <Box sx={{ flex: 1, textAlign: { xs: "center", sm: "center" } }}>
         <Link
           href="https://forms.gle/gnpnYaU1RAyxfVeu6"
           target="_blank"
@@ -36,7 +39,13 @@ const Footer = () => {
       </Box>
 
       {/* Right */}
-      <Box sx={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          justifyContent: { xs: "center", sm: "flex-end" },
+        }}
+      >
         <BuyMeACoffeeButton />
       </Box>
     </Box>
