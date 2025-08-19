@@ -19,6 +19,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  ButtonBase,
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -29,9 +30,11 @@ import useDropHistoryQuery from "@HOOKS/useDropHistoryQuery";
 import productImg from "@ASSETS/ProductPlaceholder.png";
 import Flag from "react-world-flags";
 import { formatDate, formatDuration } from "@UTILS/utils";
+import useProductListQuery from "@HOOKS/useProductListQuery";
+import { Drop, Product } from "@TYPES/api";
 
 export interface DropHistoryProps {
-  pageSize?: number; // default 10
+  pageSize?: number;
 }
 
 const EmptyState: React.FC<{ label: string }> = ({ label }) => (
@@ -45,19 +48,27 @@ const EmptyState: React.FC<{ label: string }> = ({ label }) => (
   </Paper>
 );
 
-export const DropHistory: React.FC<DropHistoryProps> = ({
-  pageSize = 10,
-}) => {
+export const DropHistory: React.FC<DropHistoryProps> = ({ pageSize = 10 }) => {
   const { t } = useTranslation();
   const region = useRegion();
   const { data, isLoading, error } = useDropHistoryQuery(region);
+
+  // productList may be an array or an object keyed by productId
+  const { data: productList } = useProductListQuery(region);
+
+  // Build a map for quick lookup by productId
+  const productById = useMemo(() => {
+    const m = new Map<string, Product>();
+    productList?.forEach((p) => m.set(p.productId, p));
+    return m;
+  }, [productList]);
 
   const [visible, setVisible] = useState(pageSize);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
   const allProducts = useMemo(
-    () => Array.from(new Set((data ?? []).map((d) => d.productName))).sort(),
+    () => Array.from(new Set((data ?? []).map((d: Drop) => d.productName))).sort(),
     [data]
   );
 
@@ -75,10 +86,8 @@ export const DropHistory: React.FC<DropHistoryProps> = ({
   }, [allProducts, region, pageSize]);
 
   const filteredSorted = useMemo(() => {
-    const base = (data ?? []).filter((d) =>
-      selectedProducts.has(d.productName)
-    );
-    base.sort((a, b) => {
+    const base = (data ?? []).filter((d: Drop) => selectedProducts.has(d.productName));
+    base.sort((a: Drop, b: Drop) => {
       const da = new Date(a.dropStart).getTime();
       const db = new Date(b.dropStart).getTime();
       return sortDir === "asc" ? da - db : db - da;
@@ -127,9 +136,7 @@ export const DropHistory: React.FC<DropHistoryProps> = ({
             <span>
               <IconButton
                 size="small"
-                onClick={() =>
-                  setSortDir((d) => (d === "asc" ? "desc" : "asc"))
-                }
+                onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
                 aria-label="sort"
                 disabled={isLoading}
               >
@@ -174,19 +181,11 @@ export const DropHistory: React.FC<DropHistoryProps> = ({
               ))}
             </FormGroup>
             <Stack direction="row" spacing={1} sx={{ mt: 1, px: 1 }}>
-              <Button
-                size="small"
-                onClick={handleSelectAll}
-                disabled={allSelected}
-              >
-              {t("DROP_HISTORY.SELECT_ALL")}
+              <Button size="small" onClick={handleSelectAll} disabled={allSelected}>
+                {t("DROP_HISTORY.SELECT_ALL")}
               </Button>
-              <Button
-                size="small"
-                onClick={handleClearAll}
-                disabled={noneSelected}
-              >
-              {t("DROP_HISTORY.CLEAR")}
+              <Button size="small" onClick={handleClearAll} disabled={noneSelected}>
+                {t("DROP_HISTORY.CLEAR")}
               </Button>
             </Stack>
           </Box>
@@ -194,7 +193,9 @@ export const DropHistory: React.FC<DropHistoryProps> = ({
       </Stack>
 
       {error && (
-        <Alert severity="error">{t("DROP_HISTORY.FAILED_TO_LOAD")} {String(error)}</Alert>
+        <Alert severity="error">
+          {t("DROP_HISTORY.FAILED_TO_LOAD")} {String(error)}
+        </Alert>
       )}
 
       {/* Loading state */}
@@ -217,98 +218,139 @@ export const DropHistory: React.FC<DropHistoryProps> = ({
         <EmptyState label="No drops found with the current filters." />
       ) : (
         <List>
-          {visibleItems.map((d) => (
-            <ListItem key={d.dropId} disableGutters>
-              <Box
-                sx={{
-                  p: 1.5,
-                  borderRadius: 3,
-                  width: "100%",
-                  bgcolor: (theme) => theme.palette.action.hover,
-                }}
-              >
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  spacing={2}
-                  sx={{ width: "100%" }}
+          {visibleItems.map((d: Drop) => {
+            const product = productById.get(d.productId);
+            const url = product?.productURL || null;
+            const imgSrc = product?.productImage || productImg;
+
+            return (
+              <ListItem key={d.dropId} disableGutters sx={{ px: 0 }}>
+                {/* ButtonBase makes the row clickable + keyboard accessible */}
+                <ButtonBase
+                  onClick={() => url && window.open(url, "_blank", "noopener")}
+                  disabled={!url}
+                  sx={{
+                    width: "100%",
+                    textAlign: "left",
+                    borderRadius: 3,
+                    // visual styles
+                    p: 0, // padding goes to inner Box to preserve rounded corners
+                    "&:disabled": { opacity: 0.9, cursor: "default" },
+                  }}
+                  aria-label={
+                    url
+                      ? `${d.productName} – open product`
+                      : `${d.productName}`
+                  }
                 >
-                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                  <Box
+                    sx={{
+                      p: 1.5,
+                      borderRadius: 3,
+                      width: "100%",
+                      bgcolor: (theme) => theme.palette.action.hover,
+                      transition: "transform 0.18s ease, box-shadow 0.18s ease",
+                      // Hover / focus-visible effect on the whole row
+                      ...(url && {
+                        "&:hover": {
+                          transform: "translateY(-2px)",
+                          boxShadow: 4,
+                        },
+                        "&:focus-visible": {
+                          outline: "2px solid",
+                          outlineColor: "primary.main",
+                          transform: "translateY(-2px)",
+                          boxShadow: 4,
+                        },
+                        cursor: "pointer",
+                      }),
+                    }}
+                  >
                     <Stack
-                      direction={{ xs: "column", md: "row" }}
+                      direction="row"
                       alignItems="center"
-                      justifyContent= "center"
-                      spacing={{ xs: 1, sm: 2 }}
-                      sx={{
-                        minWidth: 0,
-                        textAlign: { xs: "center", md: "left" },
-                      }}
+                      spacing={2}
+                      sx={{ width: "100%" }}
                     >
-                        {/* Product image */}
-                        <ListItemAvatar
-                          sx={{ display: "flex", alignItems: "center" }}
-                        >
-                          <Avatar
-                            src={productImg}
-                            variant="rounded"
-                            sx={{ width: 40, height: 40 }}
-                          />
-                        </ListItemAvatar>
-
-                        {/* Name */}
-                        <Typography
-                          variant="subtitle1"
-                          fontWeight={600}
-                          noWrap
-                          sx={{
-                            width: 200,
-                            flexShrink: 0,
-                          }}
-                          title={d.productName}
-                        >
-                          {d.productName}
-                        </Typography>
-
-                      {/* Country */}
+                      <Box sx={{ flex: 1, minWidth: 0 }}>
                         <Stack
-                          direction="row"
-                          spacing={1}
+                          direction={{ xs: "column", md: "row" }}
                           alignItems="center"
                           justifyContent="center"
-                          sx={{ width: 80 }}
+                          spacing={{ xs: 1, sm: 2 }}
+                          sx={{
+                            minWidth: 0,
+                            textAlign: { xs: "center", md: "left" },
+                          }}
                         >
-                          <Flag code={d.productCountry} height="16" />
+                          {/* Product image */}
+                          <ListItemAvatar
+                            sx={{ display: "flex", alignItems: "center" }}
+                          >
+                            <Avatar
+                              src={imgSrc}
+                              variant="rounded"
+                              sx={{ width: 40, height: 40 }}
+                              imgProps={{ referrerPolicy: "no-referrer" }}
+                            />
+                          </ListItemAvatar>
+
+                          {/* Name */}
+                          <Typography
+                            variant="subtitle1"
+                            fontWeight={600}
+                            noWrap
+                            sx={{
+                              width: 200,
+                              flexShrink: 0,
+                            }}
+                            title={d.productName}
+                          >
+                            {d.productName}
+                          </Typography>
+
+                          {/* Country */}
+                          <Stack
+                            direction="row"
+                            spacing={1}
+                            alignItems="center"
+                            justifyContent="center"
+                            sx={{ width: 80 }}
+                          >
+                            <Flag code={d.productCountry} height="16" />
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              noWrap
+                            >
+                              {d.productCountry.toUpperCase()}
+                            </Typography>
+                          </Stack>
+
+                          {/* Date */}
                           <Typography
                             variant="body2"
                             color="text.secondary"
                             noWrap
+                            sx={{ width: 100, textAlign: "center" }}
                           >
-                            {d.productCountry.toUpperCase()}
+                            {formatDate(d.dropStart, region)}
                           </Typography>
+
+                          {/* Duration */}
+                          <Chip
+                            size="small"
+                            sx={{ width: 150 }}
+                            label={formatDuration(d.dropDuration)}
+                          />
                         </Stack>
-
-                        {/* Date */}
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          noWrap
-                          sx={{ width: 100, textAlign: "center" }}
-                        >
-                          {formatDate(d.dropStart, region)}
-                        </Typography>
-
-                        {/* Duration */}
-                        <Chip
-                          size="small"
-                          sx={{ width: 150 }}
-                          label={formatDuration(d.dropDuration)}
-                        />
+                      </Box>
                     </Stack>
                   </Box>
-                </Stack>
-              </Box>
-            </ListItem>
-          ))}
+                </ButtonBase>
+              </ListItem>
+            );
+          })}
         </List>
       )}
 
