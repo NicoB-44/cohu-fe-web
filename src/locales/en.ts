@@ -33,6 +33,7 @@ const en = {
       CLEAR: "Clear",
       SORT_BY_DATE: "Sort by date",
       FAILED_TO_LOAD: "Failed to load drops.",
+      NO_DROPS_FOUND: "No drops found with the current filters.",
       LOAD_MORE: "Load more",
     },
     REGION: {

@@ -1,4 +1,4 @@
-import ProductCard from "@COMPONENTS/ProductCard/ProductCard";
+import ProductCard from "./ProductCard";
 import { useRegion } from "@CONTEXTS/RegionContext";
 import useProductListQuery from "@HOOKS/useProductListQuery";
 import { useTranslation } from "react-i18next";

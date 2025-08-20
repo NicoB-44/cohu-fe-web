@@ -32,6 +32,7 @@ const fr = {
       CLEAR: "Effacer",
       SORT_BY_DATE: "Trier par date",
       FAILED_TO_LOAD: "Échec du chargement des drops.",
+      NO_DROPS_FOUND: "Aucun drop trouvé avec les filtres actuels.",
       LOAD_MORE: "Charger plus",
     },
     REGION: {
