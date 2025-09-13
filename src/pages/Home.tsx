@@ -1,5 +1,6 @@
 import { Header, HeroBanner, ProductList } from "@COMPONENTS";
 import DropHistory from "@COMPONENTS/DropHistory";
+import { TestNotificationButton } from "@COMPONENTS/TestNotificationButton/TestNotificationButton";
 import Tips from "@COMPONENTS/Tips/Tips";
 import { Box } from "@mui/material";
 
@@ -14,6 +15,7 @@ const Home = () => {
       <HeroBanner />
       <Box my={1} />
       <ProductList />
+      <TestNotificationButton />
       <Box my={1} />
       <Tips />
       <Box my={2} />
