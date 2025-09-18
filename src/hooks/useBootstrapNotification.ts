@@ -21,8 +21,9 @@ export const useBootstrapNotifications = () => {
           fcm_token: fcmToken ?? null,
           products: {},
         });
-      } catch {
+      } catch (error) {
         setStatus("denied");
+        console.error("Failed to bootstrap notifications", error);
       }
     };
 

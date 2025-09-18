@@ -33,7 +33,8 @@ export const requestPermissionAndToken = async (): Promise<{ deviceId: string; f
   const messaging = await ensureMessaging();
   if (!messaging) return { deviceId, fcmToken: null, permission: "denied" };
 
-  const fcmToken = await getToken(messaging, { vapidKey: VAPID_KEY });
+  const swReg = await navigator.serviceWorker.getRegistration("/cohu-fe-web/firebase-messaging-sw.js");
+  const fcmToken = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: swReg ?? undefined });
   return { deviceId, fcmToken, permission: "granted" };
 };
 
