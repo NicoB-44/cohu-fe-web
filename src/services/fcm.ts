@@ -16,7 +16,10 @@ const VAPID_KEY = "BEDtl9sNUtmXUDO7H2AD1LUPHLcJDu52S0EvIqo1yY1037ImBACqibsrupCA-
 let messagingRef: Messaging | null = null;
 
 export const ensureMessaging = async (): Promise<Messaging | null> => {
-  if (!(await isSupported())) return null;
+  if (!(await isSupported())) {
+    console.warn("Firebase messaging is not supported in this browser");
+    return null;
+  }
   if (!messagingRef) {
     const app = initializeApp(firebaseConfig);
     messagingRef = getMessaging(app);
@@ -34,6 +37,7 @@ export const requestPermissionAndToken = async (): Promise<{ deviceId: string; f
   if (!messaging) return { deviceId, fcmToken: null, permission: "denied" };
 
   const swReg = await navigator.serviceWorker.getRegistration("/cohu-fe-web/firebase-messaging-sw.js");
+  console.log("Fetching FCM token with SW registration:", swReg);
   const fcmToken = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: swReg ?? undefined });
   return { deviceId, fcmToken, permission: "granted" };
 };
