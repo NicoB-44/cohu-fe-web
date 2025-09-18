@@ -11,7 +11,7 @@ const firebaseConfig = {
   messagingSenderId: "474435730603",
   appId: "1:474435730603:web:ddd69a9b3cbc88de24cbee"
 };
-const VAPID_KEY = firebaseConfig.apiKey;
+const VAPID_KEY = "BEDtl9sNUtmXUDO7H2AD1LUPHLcJDu52S0EvIqo1yY1037ImBACqibsrupCA-8TeP_thjOktue4tgnayfojFU3c";
 
 let messagingRef: Messaging | null = null;
 
