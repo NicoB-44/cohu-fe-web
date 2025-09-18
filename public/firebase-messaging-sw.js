@@ -1,6 +1,6 @@
 /* global self, clients */
-importScripts("https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js");
+importScripts('https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/11.2.0/firebase-messaging-compat.js');
 
 firebase.initializeApp({
   apiKey: "AIzaSyASQVCg8yyA_oRBn_PnGQUYTg4WwHjqByI",
@@ -10,18 +10,21 @@ firebase.initializeApp({
   messagingSenderId: "474435730603",
   appId: "1:474435730603:web:ddd69a9b3cbc88de24cbee"
 });
+
 const messaging = firebase.messaging();
 
-// Data-only payload
 messaging.onBackgroundMessage((payload) => {
-  const title = payload?.data?.title || "Notification";
-  const options = {
-    body: payload?.data?.body || "",
-    icon: "/icon.png",
-    image: payload?.data?.image,
-    data: { url: payload?.data?.url || "/" },
-  };
-  self.registration.showNotification(title, options);
+    console.log('Received background message:', payload);
+
+    const notificationTitle = payload.notification?.title || 'New Notification';
+    const notificationOptions = {
+        body: payload.notification?.body || payload.data?.message || 'New update available',
+        icon: '/img/logo.png',
+        badge: '/img/badge.png',
+        data: payload.data
+    };
+
+    return self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 self.addEventListener("notificationclick", (event) => {

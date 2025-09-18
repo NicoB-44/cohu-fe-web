@@ -9,7 +9,12 @@ import "@fontsource/roboto/700.css";
 
 if ("serviceWorker" in navigator) {
   (async () => {
-    await navigator.serviceWorker.register("/cohu-fe-web/firebase-messaging-sw.js");
+    try {
+      await navigator.serviceWorker.register("/cohu-fe-web/firebase-messaging-sw.js");
+      console.log("Service Worker registered successfully.");
+    } catch (error) {
+      console.error("Service Worker registration failed:", error);
+    }
   })();
 }
 

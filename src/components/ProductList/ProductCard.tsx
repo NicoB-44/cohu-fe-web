@@ -13,6 +13,7 @@ import {
 import { green } from "@mui/material/colors";
 import { useTranslation } from "react-i18next";
 import { useDeviceQuery, useUpsertDeviceMutation } from "@HOOKS/useDeviceQuery";
+import { useBootstrapNotifications } from "@HOOKS/useBootstrapNotification";
 
 type ProductCardProps = {
   title: string;
@@ -36,6 +37,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { t } = useTranslation();
   const { data: device, isLoading } = useDeviceQuery();
   const upsert = useUpsertDeviceMutation();
+  const { bootstrap } = useBootstrapNotifications();
 
   const pid = productId ?? title;
 
@@ -52,6 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const currentProducts = { ...(device?.products ?? {}) };
 
     if (next) {
+      await bootstrap();
       currentProducts[pid] = ["push"];
     } else {
       delete currentProducts[pid];
