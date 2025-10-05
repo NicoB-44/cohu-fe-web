@@ -1,7 +1,10 @@
 import { API_BASE_URL } from "@CONSTANTS/api";
 import { getOrCreateDeviceId } from "@UTILS/deviceId";
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, isSupported, Messaging } from "firebase/messaging";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { getMessaging, getToken, isSupported, Messaging, onMessage } from "firebase/messaging";
+import Message from "@COMPONENTS/Message/Message";
 
 const firebaseConfig = {
   apiKey: "AIzaSyASQVCg8yyA_oRBn_PnGQUYTg4WwHjqByI",
@@ -13,7 +16,18 @@ const firebaseConfig = {
 };
 const VAPID_KEY = "BEDtl9sNUtmXUDO7H2AD1LUPHLcJDu52S0EvIqo1yY1037ImBACqibsrupCA-8TeP_thjOktue4tgnayfojFU3c";
 
-let messagingRef: Messaging | null = null;
+let app = null;
+export let messagingRef: Messaging | null = null;
+
+const initialize = async () => {
+  app = initializeApp(firebaseConfig);
+  messagingRef = getMessaging(app);
+  onMessage(messagingRef, (payload) => {
+    toast(<Message notification={payload.notification} />);
+  });
+}
+
+initialize();
 
 export const ensureMessaging = async (): Promise<Messaging | null> => {
   if (!(await isSupported())) {
@@ -21,8 +35,7 @@ export const ensureMessaging = async (): Promise<Messaging | null> => {
     return null;
   }
   if (!messagingRef) {
-    const app = initializeApp(firebaseConfig);
-    messagingRef = getMessaging(app);
+    await initialize();
   }
   return messagingRef;
 };

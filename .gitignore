@@ -409,3 +409,5 @@ npm-debug.log*
 .DS_Store
 
 dist/
+
+.env
