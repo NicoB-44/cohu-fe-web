@@ -37,7 +37,7 @@ const initialize = async () => {
       }
       notification.close();
     };
-    toast(<Message notification={payload.notification} />);
+    toast(<Message notification={{body: payload.data?.body, title: payload.data?.title}} />);
   });
 }
 
