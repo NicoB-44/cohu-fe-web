@@ -23,6 +23,7 @@ const initialize = async () => {
   app = initializeApp(firebaseConfig);
   messagingRef = getMessaging(app);
   onMessage(messagingRef, (payload) => {
+    console.log("Message received:", payload);
     toast(<Message notification={payload.notification} />);
   });
 }
@@ -44,6 +45,7 @@ export const requestPermissionAndToken = async (): Promise<{ deviceId: string; f
   const deviceId = getOrCreateDeviceId();
   const permission = await Notification.requestPermission();
   if (permission !== "granted") {
+    console.warn("Notifications are not granted. Ensure you are not in incognito mode and that notifications are enabled.");
     toast(<Message notification={{ title: "Notification Permission Denied", body: "Your notifications are disabled." }} />);
     return { deviceId, fcmToken: null, permission };
   }
