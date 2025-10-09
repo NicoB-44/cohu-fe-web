@@ -25,6 +25,7 @@ const initialize = async () => {
   onMessage(messagingRef, (payload) => {
     console.log("Message received:", payload);
     const notification = new Notification(payload.data?.title || "CoHu Notification", {
+      icon: payload.data?.icon || payload.data?.image,
       body: payload.data?.body,
       requireInteraction: false,
     });
