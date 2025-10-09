@@ -55,26 +55,11 @@ export const ensureMessaging = async (): Promise<Messaging | null> => {
 };
 
 export const requestPermissionAndToken = async (): Promise<{ deviceId: string; fcmToken: string | null; permission: NotificationPermission; }> => {
-
-    const n = new Notification("Hello from React 👋", {
-      body: "This is a desktop notification.",
-      icon: "/icon-192.png", // optional
-      tag: "demo-1",         // optional: de-dupe notifications
-      requireInteraction: false, // keep or auto-close
-    });
-
-    n.onclick = () => {
-      window.focus();
-      // navigate user if you want:
-      // window.location.href = "/inbox";
-      n.close();
-    };
-
   const deviceId = getOrCreateDeviceId();
   const permission = await Notification.requestPermission();
   if (permission !== "granted") {
     console.warn("Notifications are not granted. Ensure you are not in incognito mode and that notifications are enabled.");
-    toast(<Message notification={{ body: "Your notifications are disabled." }} />);
+    toast(<Message notification={{ body: "Your notifications are disabled." }} />, { type: "error" });
     return { deviceId, fcmToken: null, permission };
   }
   const messaging = await ensureMessaging();
