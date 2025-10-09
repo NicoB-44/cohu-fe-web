@@ -24,6 +24,18 @@ const initialize = async () => {
   messagingRef = getMessaging(app);
   onMessage(messagingRef, (payload) => {
     console.log("Message received:", payload);
+    const notification = new Notification(payload.data?.title || "CoHu Notification", {
+      body: payload.data?.body,
+      requireInteraction: false,
+    });
+
+    notification.onclick = () => {
+      window.focus();
+      if (payload.data?.url) {
+        window.location.href = payload.data?.url;
+      }
+      notification.close();
+    };
     toast(<Message notification={payload.notification} />);
   });
 }
@@ -42,6 +54,21 @@ export const ensureMessaging = async (): Promise<Messaging | null> => {
 };
 
 export const requestPermissionAndToken = async (): Promise<{ deviceId: string; fcmToken: string | null; permission: NotificationPermission; }> => {
+
+    const n = new Notification("Hello from React 👋", {
+      body: "This is a desktop notification.",
+      icon: "/icon-192.png", // optional
+      tag: "demo-1",         // optional: de-dupe notifications
+      requireInteraction: false, // keep or auto-close
+    });
+
+    n.onclick = () => {
+      window.focus();
+      // navigate user if you want:
+      // window.location.href = "/inbox";
+      n.close();
+    };
+
   const deviceId = getOrCreateDeviceId();
   const permission = await Notification.requestPermission();
   if (permission !== "granted") {

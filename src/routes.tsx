@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import RegionProvider from "@PROVIDERS/RegionProvider";
 import { DEFAULT_REGION } from "@CONSTANTS/regions";
+import TestPage from "./pages/TestPage";
 
 export const routes: RouteObject[] = [
 {
@@ -14,6 +15,15 @@ export const routes: RouteObject[] = [
     element: (
       <RegionProvider>
         <Home />
+      </RegionProvider>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/:region/test",
+    element: (
+      <RegionProvider>
+        <TestPage />
       </RegionProvider>
     ),
     errorElement: <NotFound />,
