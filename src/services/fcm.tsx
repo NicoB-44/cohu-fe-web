@@ -44,6 +44,7 @@ export const requestPermissionAndToken = async (): Promise<{ deviceId: string; f
   const deviceId = getOrCreateDeviceId();
   const permission = await Notification.requestPermission();
   if (permission !== "granted") {
+    toast(<Message notification={{ title: "Notification Permission Denied", body: "Your notifications are disabled." }} />);
     return { deviceId, fcmToken: null, permission };
   }
   const messaging = await ensureMessaging();
