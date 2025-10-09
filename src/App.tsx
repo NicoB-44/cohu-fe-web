@@ -10,6 +10,7 @@ import {
   Stack,
   ThemeProvider,
 } from "@mui/material";
+import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,6 +32,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <ToastContainer />
       <Container
         disableGutters
         sx={{ backgroundColor: "#fff", height: "100%" }}

@@ -46,7 +46,7 @@ export const requestPermissionAndToken = async (): Promise<{ deviceId: string; f
   const permission = await Notification.requestPermission();
   if (permission !== "granted") {
     console.warn("Notifications are not granted. Ensure you are not in incognito mode and that notifications are enabled.");
-    toast(<Message notification={{ title: "Notification Permission Denied", body: "Your notifications are disabled." }} />);
+    toast(<Message notification={{ body: "Your notifications are disabled." }} />);
     return { deviceId, fcmToken: null, permission };
   }
   const messaging = await ensureMessaging();

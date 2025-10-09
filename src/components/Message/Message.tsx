@@ -1,6 +1,7 @@
 import { NotificationPayload } from "firebase/messaging";
 import React from "react";
 import { styled } from "@mui/material/styles";
+import { Box } from "@mui/material";
 
 const NotificationHeader = styled("div")(() => ({
   display: "flex",
@@ -24,17 +25,19 @@ const ImageContainer = styled("div")(() => ({
 
 const Message: React.FC<{ notification: NotificationPayload | undefined }> = ({ notification }) => {
   return (
-    <>
-      <NotificationHeader>
-        {notification?.image && (
-          <ImageContainer>
-            <img src={notification.image} width={100} alt="Notification" />
-          </ImageContainer>
-        )}
-        <span>{notification?.title}</span>
-      </NotificationHeader>
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
+      {notification?.title && (
+        <NotificationHeader>
+          {notification?.image && (
+            <ImageContainer>
+              <img src={notification.image} width={100} alt="Notification" />
+            </ImageContainer>
+          )}
+          <span>{notification?.title}</span>
+        </NotificationHeader>
+      )}
       <NotificationBody>{notification?.body}</NotificationBody>
-    </>
+    </Box>
   );
 };
 
