@@ -22,13 +22,11 @@ export const formatDuration = (seconds: number) => {
     return `~ ${hours} hour${hours > 1 ? "s" : ""}`;
   }
 
-  // ~ X days
-  if (seconds < 2592000) { // up to ~30 days
-    const days = Math.trunc(seconds / (3600 * 24)) + 1;
-    return `~ ${days} day${days > 1 ? "s" : ""}`;
-  }
+  const days = Math.trunc(seconds / (3600 * 24)) + 1;
+  return `~ ${days} day${days > 1 ? "s" : ""}`;
 
+  // Months are to imprecise  
   // ~ X months (approx. 30 days per month)
-  const months = Math.trunc(seconds / (3600 * 24 * 30)) + 1;
-  return `~ ${months} month${months > 1 ? "s" : ""}`;
+  // const months = Math.trunc(seconds / (3600 * 24 * 30)) + 1;
+  // return `~ ${months} month${months > 1 ? "s" : ""}`;
 };
