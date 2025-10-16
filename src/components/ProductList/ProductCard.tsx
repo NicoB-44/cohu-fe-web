@@ -37,7 +37,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { t } = useTranslation();
   const { data: device, isLoading } = useDeviceQuery();
   const upsert = useUpsertDeviceMutation();
-  const { bootstrap } = useBootstrapNotifications();
+  const { getNotificationParams } = useBootstrapNotifications();
 
   const pid = productId ?? title;
 
@@ -54,14 +54,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const currentProducts = { ...(device?.products ?? {}) };
 
     if (next) {
-      await bootstrap();
       currentProducts[pid] = ["push"];
     } else {
       currentProducts[pid] = [];
     }
+    const { deviceId, fcmToken } = await getNotificationParams();
 
+    if (!deviceId || !fcmToken) {
+      console.error("Cannot update device subscriptions: missing deviceId or fcmToken");
+      return;
+    }
+    
     try {
-      await upsert.mutateAsync({ products: currentProducts });
+      await upsert.mutateAsync({
+          device_id: deviceId,
+          fcm_token: fcmToken,
+          products: currentProducts
+      });
     } catch (error) {
       console.error("Error updating device with products subscriptions:", error);
     }
