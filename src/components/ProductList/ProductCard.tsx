@@ -57,13 +57,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
       await bootstrap();
       currentProducts[pid] = ["push"];
     } else {
-      delete currentProducts[pid];
+      currentProducts[pid] = [];
     }
 
     try {
       await upsert.mutateAsync({ products: currentProducts });
-    } catch {
-      // no-op here; you can plug a Snackbar/Alert if you want
+    } catch (error) {
+      console.error("Error updating device with products subscriptions:", error);
     }
   };
 
@@ -143,7 +143,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   sx={{ color: "primary.dark", mr: 1 }}
                   disabled={isLoading || upsert.isPending}
                 >
-                  {t("PRODUCT_CARD.ACTIVATE_NOTIFICATION")}
+                  {notificationEnabled ? t("PRODUCT_CARD.DEACTIVATE_NOTIFICATION") : t("PRODUCT_CARD.ACTIVATE_NOTIFICATION")}
                 </Link>
 
                 {isLoading || upsert.isPending ? (

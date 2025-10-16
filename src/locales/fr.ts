@@ -20,6 +20,7 @@ const fr = {
       UNAVAILABLE: "Indisponible",
       LAST_DROP: "Dernière chute",
       ACTIVATE_NOTIFICATION: "Activer la notification",
+      DEACTIVATE_NOTIFICATION: "Désactiver la notification",
     },
     TIPS: {
       TEXT: "Des alertes de drop… directement dans votre poche ? Accédez à CoHu et activez les notifications sur votre mobile.",

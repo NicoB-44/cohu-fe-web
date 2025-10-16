@@ -24,6 +24,7 @@ const en = {
       UNAVAILABLE: "Unavailable",
       LAST_DROP: "Last drop",
       ACTIVATE_NOTIFICATION: "Activate Notification",
+      DEACTIVATE_NOTIFICATION: "Deactivate Notification",
     },
     DROP_HISTORY: {
       TITLE: "Drop History",
