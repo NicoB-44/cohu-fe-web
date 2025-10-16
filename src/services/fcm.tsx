@@ -33,7 +33,7 @@ const initialize = async () => {
     notification.onclick = () => {
       window.focus();
       if (payload.data?.link) {
-        window.location.href = payload.data?.link;
+        window.open(payload.data?.link);
       }
       notification.close();
     };
