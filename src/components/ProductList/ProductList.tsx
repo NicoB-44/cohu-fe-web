@@ -55,6 +55,7 @@ const ProductList = () => {
           imageUrl={product.productImage}
           buyUrl={product.productURL}
           available={product.cohuAvailability?.available}
+          productId={product.productId}
         />
       ))}
     </Box>

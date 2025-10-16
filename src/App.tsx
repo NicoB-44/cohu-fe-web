@@ -11,6 +11,8 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import { ToastContainer } from "react-toastify";
+import { useEffect } from "react";
+import { getOrCreateDeviceId } from "@UTILS/deviceId";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +31,11 @@ const theme = createTheme({
 });
 
 function App() {
+  useEffect(() => {
+    const deviceId = getOrCreateDeviceId();
+    console.log("Device ID:", deviceId);
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
