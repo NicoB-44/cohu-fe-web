@@ -19,14 +19,20 @@ firebase.initializeApp(defaultConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  const notificationTitle = payload.notification.title;
+  const notificationTitle = payload.data.title;
   const notificationOptions = {
-    body: payload.notification.body,
-    icon: payload.notification.image,
+    body: payload.data.body,
+    icon: payload.data.image,
     data: {
-      url: payload.data?.url || "/",
+      url: payload.data?.link || "/",
     }
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
+  self.addEventListener('notificationclick', function(event) {
+    event.notification.close();
+    event.waitUntil(
+      clients.openWindow(event.notification.data.link)
+    );
+  });
 });
