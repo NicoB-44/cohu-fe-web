@@ -4,7 +4,7 @@ import { useRegion } from "@CONTEXTS/RegionContext";
 import { validRegions } from "@CONSTANTS/regions";
 import { useTranslation } from "react-i18next";
 
-export default function RegionSelector() {
+export default function RegionSelector({ onChange }: { onChange?: () => void }) {
   const region = useRegion();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -16,6 +16,7 @@ export default function RegionSelector() {
   const handleChange = (event: SelectChangeEvent<string>) => {
     const selectedRegion = event.target.value;
     navigate(`/${selectedRegion}`);
+    onChange?.();
   };
 
   return (

@@ -60,8 +60,8 @@ const Header = () => {
           keepMounted
         >
           <Box px={2} py={1} display="flex" flexDirection="column" gap={1.5}>
-            <LocaleSwitch />
-            <RegionSelector />
+            <LocaleSwitch onChange={handleClose} />
+            <RegionSelector onChange={handleClose} />
           </Box>
         </Menu>
       </Box>

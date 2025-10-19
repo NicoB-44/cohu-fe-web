@@ -10,15 +10,16 @@ const FLAG_CODE: {[key: string]: string} = {
   fr: "FR",
 };
 
-const LocaleSwitch = () => {
+const LocaleSwitch = ({ onChange }: { onChange?: () => void }) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
 
   const handleLocaleChange = useCallback(
     (_: React.MouseEvent<HTMLElement>, newLocale: string) => {
       i18n.changeLanguage(newLocale);
+      onChange?.();
     },
-    [i18n]
+    [i18n, onChange]
   );
 
   return (
