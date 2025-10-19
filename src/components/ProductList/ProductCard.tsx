@@ -50,7 +50,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   const handleToggle = async (next: boolean) => {
-    // Prevent opening the buy link when toggling (handled on the Box as well)
     const currentProducts = { ...(device?.products ?? {}) };
 
     if (next) {

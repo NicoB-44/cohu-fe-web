@@ -1,22 +1,28 @@
 import { Button } from "@mui/material";
-import { getOrCreateDeviceId } from "@UTILS/deviceId";
 import { useState } from "react";
 import { testNotification } from "../../services/deviceNotification";
+import { useBootstrapNotifications } from "@HOOKS/useBootstrapNotification";
+import { useTranslation } from "react-i18next";
 
 export const TestNotificationButton = () => {
   const [loading, setLoading] = useState(false);
-  const [label, setLabel] = useState("Send a test notification");
+  const { t } = useTranslation();
+  const [label, setLabel] = useState(t("TEST_NOTIFICATION.SEND"));
+
+  const { getNotificationParams } = useBootstrapNotifications();
 
   const handleClick = async () => {
     setLoading(true);
     try {
-      await testNotification(getOrCreateDeviceId());
-      setLabel("Notification sent ✔︎");
+      const { deviceId } = await getNotificationParams();
+      if (!deviceId) throw new Error("No device ID available");
+      await testNotification(deviceId);
+      setLabel(t("TEST_NOTIFICATION.SENT"));
     } catch {
-      setLabel("Failed to send notification");
+      setLabel(t("TEST_NOTIFICATION.ERROR"));
     } finally {
       setLoading(false);
-      setTimeout(() => setLabel("Send a test notification"), 2500);
+      setTimeout(() => setLabel(t("TEST_NOTIFICATION.SEND")), 2500);
     }
   };
 

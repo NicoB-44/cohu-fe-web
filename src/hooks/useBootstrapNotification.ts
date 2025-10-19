@@ -28,25 +28,5 @@ export const useBootstrapNotifications = () => {
     }; 
   };
 
-  const bootstrap = async () => {
-      setStatus("asking");
-      try {
-        const { deviceId, fcmToken, permission } = await requestPermissionAndToken();
-        if (permission !== "granted") { setStatus("denied"); return; }
-
-        if (!fcmToken) { throw new Error("FCM token is null despite permission granted"); }
-
-        setStatus("granted");
-        await upsertMutation.mutateAsync({
-          device_id: deviceId,
-          fcm_token: fcmToken,
-          products: {},
-        });
-      } catch (error) {
-        setStatus("denied");
-        console.error("Failed to bootstrap notifications", error);
-      }
-    };
-
-  return { bootstrap, status, upserting: upsertMutation.isPending, getNotificationParams };
+  return { status, upserting: upsertMutation.isPending, getNotificationParams };
 };

@@ -26,6 +26,11 @@ const en = {
       ACTIVATE_NOTIFICATION: "Activate Notification",
       DEACTIVATE_NOTIFICATION: "Deactivate Notification",
     },
+    TEST_NOTIFICATION: {
+      SEND: "Send a test notification",
+      ERROR: "Failed to send notification",
+      SENT: "Notification sent ✔︎",
+    },
     DROP_HISTORY: {
       TITLE: "Drop History",
       FILTER_BY_PRODUCT: "Filter by product",

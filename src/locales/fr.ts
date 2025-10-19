@@ -22,6 +22,11 @@ const fr = {
       ACTIVATE_NOTIFICATION: "Activer la notification",
       DEACTIVATE_NOTIFICATION: "Désactiver la notification",
     },
+    TEST_NOTIFICATION: {
+      SEND: "Envoyer une notification de test",
+      ERROR: "Échec de l'envoi de la notification",
+      SENT: "Notification envoyée ✔︎",
+    },
     TIPS: {
       TEXT: "Des alertes de drop… directement dans votre poche ? Accédez à CoHu et activez les notifications sur votre mobile.",
     },
